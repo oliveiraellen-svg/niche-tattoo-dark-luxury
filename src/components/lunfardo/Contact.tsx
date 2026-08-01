@@ -75,10 +75,9 @@ export function Contact() {
               </div>
               <Field label="Asunto" name="asunto" />
               <Field label="Tu idea o duda" name="idea" textarea />
-              <MagneticButton onClick={() => {}}>
+              <MagneticButton type="submit">
                 {sending ? "Enviando…" : "Enviar solicitud"}
               </MagneticButton>
-              <button type="submit" className="hidden" aria-hidden />
             </form>
           </Reveal>
         </div>
