@@ -5,6 +5,7 @@ type Props = {
   children: ReactNode;
   href?: string;
   onClick?: () => void;
+  type?: "button" | "submit";
   variant?: "solid" | "ghost";
   className?: string;
 };
@@ -13,6 +14,7 @@ export function MagneticButton({
   children,
   href,
   onClick,
+  type = "button",
   variant = "solid",
   className = "",
 }: Props) {
