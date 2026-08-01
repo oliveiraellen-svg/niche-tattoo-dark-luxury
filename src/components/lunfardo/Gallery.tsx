@@ -72,7 +72,7 @@ export function Gallery() {
 
         <motion.div
           layout
-          className="mt-16 grid auto-rows-[220px] grid-cols-1 gap-4 sm:grid-cols-2 md:auto-rows-[240px] lg:grid-cols-3"
+          className="mt-16 grid auto-rows-[220px] grid-flow-row-dense grid-cols-1 gap-4 sm:grid-cols-2 md:auto-rows-[240px] lg:grid-cols-3"
         >
           <AnimatePresence mode="popLayout">
             {visible.map((w, i) => (
