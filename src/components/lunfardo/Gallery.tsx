@@ -35,6 +35,8 @@ export function Gallery() {
   const [lightbox, setLightbox] = useState<number | null>(null);
 
   const visible = works.filter((w) => filter === "Todo" || w.cat === filter);
+  const current = lightbox === null ? null : works[lightbox];
+
 
   return (
     <section id="galeria" className="grain relative px-6 py-28 md:px-12 md:py-40">

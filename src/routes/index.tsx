@@ -44,9 +44,6 @@ function Index() {
       />
       <Nav />
       <main>
-        <h1 className="sr-only">
-          Lunfardo Tattoo — estudio privado de tatuajes y piercing en Ibi, Alicante
-        </h1>
         <Hero />
         <About />
         <Services />
