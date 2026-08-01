@@ -27,7 +27,7 @@ export function Reveal({
   );
 }
 
-/** Unmasks its child from one side as it enters the viewport. */
+/** Unmasks its child from one side with a sliding curtain as it enters view. */
 export function MaskReveal({
   children,
   from = "left",
@@ -39,23 +39,33 @@ export function MaskReveal({
   delay?: number;
   className?: string;
 }) {
-  const hidden =
+  const exit =
     from === "left"
-      ? "inset(0 100% 0 0)"
+      ? { x: "100%" }
       : from === "right"
-        ? "inset(0 0 0 100%)"
-        : "inset(100% 0 0 0)";
+        ? { x: "-100%" }
+        : { y: "-100%" };
 
   return (
-    <motion.div
-      className={`overflow-hidden ${className}`}
-      initial={{ clipPath: hidden, opacity: 0.2 }}
-      whileInView={{ clipPath: "inset(0 0 0 0)", opacity: 1 }}
-      viewport={{ once: true, margin: "-10%" }}
-      transition={{ duration: 1.4, delay, ease: EASE }}
-    >
-      {children}
-    </motion.div>
+    <div className={`relative overflow-hidden ${className}`}>
+      <motion.div
+        initial={{ scale: 1.06 }}
+        whileInView={{ scale: 1 }}
+        viewport={{ once: true, margin: "-10%" }}
+        transition={{ duration: 1.6, delay, ease: EASE }}
+        className="h-full w-full"
+      >
+        {children}
+      </motion.div>
+      <motion.span
+        aria-hidden
+        className="absolute inset-0 z-10 bg-background"
+        initial={{ x: "0%", y: "0%" }}
+        whileInView={exit}
+        viewport={{ once: true, margin: "-10%" }}
+        transition={{ duration: 1.3, delay, ease: EASE }}
+      />
+    </div>
   );
 }
 
@@ -76,12 +86,15 @@ export function TextReveal({
   return (
     <span className={`inline-flex flex-wrap ${className}`}>
       {text.split(" ").map((word, i) => (
-        <span key={`${word}-${i}`} className="overflow-hidden pb-[0.08em]">
+        <span
+          key={`${word}-${i}`}
+          className="inline-block overflow-hidden pb-[0.12em] align-bottom"
+        >
           <motion.span
             className={`inline-block ${wordClassName}`}
             initial={{ y: "110%", opacity: 0 }}
             whileInView={{ y: "0%", opacity: 1 }}
-            viewport={{ once: true, margin: "-10%" }}
+            viewport={{ once: true, margin: "-8%" }}
             transition={{
               duration: 1.2,
               delay: delay + i * stagger,
@@ -96,3 +109,4 @@ export function TextReveal({
     </span>
   );
 }
+
