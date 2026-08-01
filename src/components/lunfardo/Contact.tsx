@@ -44,10 +44,11 @@ export function Contact() {
 
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
     setSending(true);
     setTimeout(() => {
       setSending(false);
-      e.currentTarget?.reset();
+      form.reset();
       toast.success("Solicitud enviada", {
         description: "Te contactaremos para confirmar tu cita.",
       });

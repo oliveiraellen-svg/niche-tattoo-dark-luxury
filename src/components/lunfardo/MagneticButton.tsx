@@ -63,7 +63,7 @@ export function MagneticButton({
           {inner}
         </a>
       ) : (
-        <button type="button" onClick={onClick} className={`${base} ${styles}`}>
+        <button type={type} onClick={onClick} className={`${base} ${styles}`}>
           {inner}
         </button>
       )}
