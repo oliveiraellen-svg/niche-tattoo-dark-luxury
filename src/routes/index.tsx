@@ -1,24 +1,56 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { motion, useScroll, useSpring } from "motion/react";
+import { Nav } from "@/components/lunfardo/Nav";
+import { Hero } from "@/components/lunfardo/Hero";
+import { About } from "@/components/lunfardo/About";
+import { Services } from "@/components/lunfardo/Services";
+import { Gallery } from "@/components/lunfardo/Gallery";
+import { Contact } from "@/components/lunfardo/Contact";
+import { Footer } from "@/components/lunfardo/Footer";
+import { CustomCursor } from "@/components/lunfardo/CustomCursor";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const TITLE = "Lunfardo Tattoo — Estudio privado de tatuajes y piercing en Ibi";
+const DESCRIPTION =
+  "Estudio privado y exclusivo de tatuajes y piercing en Ibi, Alicante. Fine line, realismo, blackwork, cover up y murales. Más de una década de experiencia, solo con cita previa.";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 90,
+    damping: 26,
+    restDelta: 0.001,
+  });
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
+    <div className="cursor-none-desktop relative bg-background">
+      <CustomCursor />
+      <motion.div
+        style={{ scaleX: progress }}
+        className="fixed inset-x-0 top-0 z-[80] h-px origin-left bg-gold/70"
       />
+      <Nav />
+      <main>
+        <Hero />
+        <About />
+        <Services />
+        <Gallery />
+        <Contact />
+      </main>
+      <Footer />
     </div>
   );
 }
