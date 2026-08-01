@@ -106,7 +106,7 @@ export function Gallery() {
       </div>
 
       <AnimatePresence>
-        {lightbox !== null && (
+        {current && (
           <motion.div
             className="fixed inset-0 z-[90] flex items-center justify-center bg-ink/85 p-6 backdrop-blur-xl"
             initial={{ opacity: 0 }}
@@ -130,15 +130,15 @@ export function Gallery() {
               onClick={(e) => e.stopPropagation()}
             >
               <img
-                src={works[lightbox].src}
-                alt={`${works[lightbox].style} — Lunfardo Tattoo`}
+                src={current.src}
+                alt={`${current.style} — Lunfardo Tattoo`}
                 className="max-h-[76vh] w-auto object-contain shadow-[var(--shadow-lift)]"
               />
               <figcaption className="mt-5 flex items-center justify-between">
                 <span className="font-display text-xl text-foreground">
-                  {works[lightbox].style}
+                  {current.style}
                 </span>
-                <span className="eyebrow">{works[lightbox].cat}</span>
+                <span className="eyebrow">{current.cat}</span>
               </figcaption>
             </motion.figure>
           </motion.div>
