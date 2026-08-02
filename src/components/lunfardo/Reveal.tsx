@@ -39,12 +39,7 @@ export function MaskReveal({
   delay?: number;
   className?: string;
 }) {
-  const exit =
-    from === "left"
-      ? { x: "100%" }
-      : from === "right"
-        ? { x: "-100%" }
-        : { y: "-100%" };
+  const exit = from === "left" ? { x: "100%" } : from === "right" ? { x: "-100%" } : { y: "-100%" };
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
@@ -109,4 +104,3 @@ export function TextReveal({
     </span>
   );
 }
-
