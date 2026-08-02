@@ -58,11 +58,7 @@ export function Nav() {
             </a>
           </nav>
 
-          <button
-            aria-label="Abrir menú"
-            onClick={() => setOpen(true)}
-            className="md:hidden"
-          >
+          <button aria-label="Abrir menú" onClick={() => setOpen(true)} className="md:hidden">
             <Menu className="h-6 w-6 text-foreground" strokeWidth={1} />
           </button>
         </div>

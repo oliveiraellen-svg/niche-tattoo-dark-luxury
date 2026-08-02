@@ -12,10 +12,7 @@ export function About() {
   const y = useTransform(scrollYProgress, [0, 1], ["-8%", "12%"]);
 
   return (
-    <section
-      id="filosofia"
-      className="grain relative overflow-hidden px-6 py-28 md:px-12 md:py-40"
-    >
+    <section id="filosofia" className="grain relative overflow-hidden px-6 py-28 md:px-12 md:py-40">
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-5 lg:pt-16">
           <div ref={ref} className="relative">
@@ -30,10 +27,7 @@ export function About() {
                 className="h-[112%] w-full object-cover"
               />
             </MaskReveal>
-            <Reveal
-              delay={0.4}
-              className="glass absolute -right-4 bottom-8 px-6 py-5 md:-right-10"
-            >
+            <Reveal delay={0.4} className="glass absolute -right-4 bottom-8 px-6 py-5 md:-right-10">
               <p className="font-display text-4xl text-gold">+10</p>
               <p className="eyebrow mt-1">Años de oficio</p>
             </Reveal>
@@ -53,16 +47,16 @@ export function About() {
 
           <Reveal delay={0.15}>
             <p className="max-w-xl text-base leading-relaxed text-muted-foreground">
-              Somos un estudio de tatuajes y piercing privado y exclusivo, operando
-              únicamente con cita previa. Esto garantiza una experiencia personalizada,
-              cómoda y enfocada al 100% en tu proyecto.
+              Somos un estudio de tatuajes y piercing privado y exclusivo, operando únicamente con
+              cita previa. Esto garantiza una experiencia personalizada, cómoda y enfocada al 100%
+              en tu proyecto.
             </p>
           </Reveal>
 
           <Reveal delay={0.25}>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground">
-              Con más de una década de experiencia en el sector, ofrecemos
-              profesionalismo y calidad en cada servicio.
+              Con más de una década de experiencia en el sector, ofrecemos profesionalismo y calidad
+              en cada servicio.
             </p>
           </Reveal>
 

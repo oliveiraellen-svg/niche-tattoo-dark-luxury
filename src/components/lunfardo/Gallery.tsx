@@ -27,7 +27,14 @@ const works: {
   { src: coverup, style: "Cover Up", cat: "Tattoos", w: 1024, h: 1280, span: "row-span-2" },
   { src: tradicional, style: "Tradicional", cat: "Tattoos", w: 1024, h: 1024 },
   { src: mural1, style: "Mural · Interior", cat: "Murales", w: 1400, h: 1024 },
-  { src: mural2, style: "Mural · Gran formato", cat: "Murales", w: 1024, h: 1280, span: "row-span-2" },
+  {
+    src: mural2,
+    style: "Mural · Gran formato",
+    cat: "Murales",
+    w: 1024,
+    h: 1280,
+    span: "row-span-2",
+  },
 ];
 
 export function Gallery() {
@@ -36,7 +43,6 @@ export function Gallery() {
 
   const visible = works.filter((w) => filter === "Todo" || w.cat === filter);
   const current = lightbox === null ? null : works[lightbox];
-
 
   return (
     <section id="galeria" className="grain relative px-6 py-28 md:px-12 md:py-40">
@@ -137,9 +143,7 @@ export function Gallery() {
                 className="max-h-[76vh] w-auto object-contain shadow-[var(--shadow-lift)]"
               />
               <figcaption className="mt-5 flex items-center justify-between">
-                <span className="font-display text-xl text-foreground">
-                  {current.style}
-                </span>
+                <span className="font-display text-xl text-foreground">{current.style}</span>
                 <span className="eyebrow">{current.cat}</span>
               </figcaption>
             </motion.figure>
