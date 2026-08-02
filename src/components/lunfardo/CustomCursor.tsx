@@ -17,9 +17,7 @@ export function CustomCursor() {
       x.set(e.clientX);
       y.set(e.clientY);
       const target = e.target as HTMLElement | null;
-      setActive(
-        !!target?.closest("a, button, input, textarea, [data-cursor='hover']"),
-      );
+      setActive(!!target?.closest("a, button, input, textarea, [data-cursor='hover']"));
     };
     window.addEventListener("pointermove", move);
     return () => window.removeEventListener("pointermove", move);
