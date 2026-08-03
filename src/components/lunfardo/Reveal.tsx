@@ -84,7 +84,21 @@ export function TextReveal({
   stagger?: number;
 }) {
   return (
-    <span className={`inline-flex flex-wrap ${className}`}>
+    <motion.span 
+      className={`inline-flex flex-wrap gap-x-[0.25em] ${className}`}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-8%" }}
+      variants={{
+        hidden: {},
+        visible: {
+          transition: {
+            staggerChildren: stagger,
+            delayChildren: delay,
+          }
+        }
+      }}
+    >
       {text.split(" ").map((word, i) => (
         <span
           key={`${word}-${i}`}
@@ -92,21 +106,20 @@ export function TextReveal({
         >
           <motion.span
             className={`inline-block ${wordClassName}`}
-            initial={{ y: "110%", opacity: 0 }}
-            whileInView={{ y: "0%", opacity: 1 }}
-            viewport={{ once: true, margin: "-8%" }}
-            transition={{
-              duration: 1.2,
-              delay: delay + i * stagger,
-              ease: EASE,
+            variants={{
+              hidden: { y: "110%", opacity: 0 },
+              visible: { 
+                y: "0%", 
+                opacity: 1, 
+                transition: { duration: 1.2, ease: EASE } 
+              }
             }}
           >
             {word}
-            {"\u00A0"}
           </motion.span>
         </span>
       ))}
-    </span>
+    </motion.span>
   );
 }
 

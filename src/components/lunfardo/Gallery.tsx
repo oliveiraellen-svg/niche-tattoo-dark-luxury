@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { X } from "lucide-react";
 import { Reveal, TextReveal } from "./Reveal";
+import { ExpandableGallery } from "@/components/ui/gallery-animation";
 
 import fineline from "@/assets/work-fineline.jpg";
 import realismo from "@/assets/work-realismo.jpg";
@@ -32,11 +31,8 @@ const works: {
 
 export function Gallery() {
   const [filter, setFilter] = useState<"Todo" | Cat>("Todo");
-  const [lightbox, setLightbox] = useState<number | null>(null);
 
   const visible = works.filter((w) => filter === "Todo" || w.cat === filter);
-  const current = lightbox === null ? null : works[lightbox];
-
 
   return (
     <section id="galeria" className="grain relative px-6 py-28 md:px-12 md:py-40">
@@ -70,82 +66,12 @@ export function Gallery() {
           </Reveal>
         </div>
 
-        <motion.div
-          layout
-          className="mt-16 grid auto-rows-[220px] grid-flow-row-dense grid-cols-1 gap-4 sm:grid-cols-2 md:auto-rows-[240px] lg:grid-cols-3"
-        >
-          <AnimatePresence mode="popLayout">
-            {visible.map((w, i) => (
-              <motion.button
-                key={w.src}
-                layout
-                initial={{ opacity: 0, scale: 0.94 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.94 }}
-                transition={{ duration: 0.7, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
-                onClick={() => setLightbox(works.indexOf(w))}
-                className={`group relative overflow-hidden ${w.span ?? ""}`}
-              >
-                <img
-                  src={w.src}
-                  alt={`${w.style} — Lunfardo Tattoo`}
-                  width={w.w}
-                  height={w.h}
-                  loading="lazy"
-                  className="h-full w-full object-cover brightness-[0.85] transition-all duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.07] group-hover:brightness-[0.5]"
-                />
-                <div className="absolute inset-0 flex items-end p-6 opacity-0 transition-opacity duration-700 group-hover:opacity-100">
-                  <div>
-                    <p className="eyebrow text-gold">{w.cat}</p>
-                    <p className="mt-2 font-display text-2xl text-foreground">{w.style}</p>
-                  </div>
-                </div>
-                <span className="pointer-events-none absolute inset-0 border border-transparent transition-colors duration-700 group-hover:border-gold/30" />
-              </motion.button>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+        <Reveal delay={0.3}>
+          <div className="mt-16 w-full">
+            <ExpandableGallery items={visible} />
+          </div>
+        </Reveal>
       </div>
-
-      <AnimatePresence>
-        {current && (
-          <motion.div
-            className="fixed inset-0 z-[90] flex items-center justify-center bg-ink/85 p-6 backdrop-blur-xl"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setLightbox(null)}
-          >
-            <button
-              aria-label="Cerrar"
-              className="absolute right-6 top-6 text-muted-foreground transition-colors hover:text-gold"
-              onClick={() => setLightbox(null)}
-            >
-              <X className="h-6 w-6" strokeWidth={1} />
-            </button>
-            <motion.figure
-              initial={{ opacity: 0, scale: 0.94, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96 }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="max-h-[86vh] max-w-5xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <img
-                src={current.src}
-                alt={`${current.style} — Lunfardo Tattoo`}
-                className="max-h-[76vh] w-auto object-contain shadow-[var(--shadow-lift)]"
-              />
-              <figcaption className="mt-5 flex items-center justify-between">
-                <span className="font-display text-xl text-foreground">
-                  {current.style}
-                </span>
-                <span className="eyebrow">{current.cat}</span>
-              </figcaption>
-            </motion.figure>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }

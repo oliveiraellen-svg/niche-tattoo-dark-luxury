@@ -50,6 +50,44 @@ const REVIEWS: Review[] = [
   },
 ];
 
+const REVIEWS2: Review[] = [
+  {
+    id: 6,
+    name: "Javier H.",
+    rating: 5,
+    text: "El nivel de detalle en el cover up es impresionante. Parecía imposible tapar mi tatuaje antiguo, pero Lunfardo hizo magia.",
+    date: "Hace 4 meses",
+  },
+  {
+    id: 7,
+    name: "Camila Ortiz",
+    rating: 5,
+    text: "Llevo 3 tatuajes hechos aquí y siempre es una experiencia increíble. La vibra del estudio y la atención son inmejorables.",
+    date: "Hace 1 semana",
+  },
+  {
+    id: 8,
+    name: "Marcos V.",
+    rating: 5,
+    text: "Me hice mi primer tatuaje y me explicaron todo el proceso con mucha paciencia. El diseño quedó tal cual lo imaginaba.",
+    date: "Hace 5 meses",
+  },
+  {
+    id: 9,
+    name: "Ana P.",
+    rating: 5,
+    text: "Un trabajo hiperrealista espectacular. Las sombras suaves y los contrastes fuertes hacen que el tatuaje resalte muchísimo.",
+    date: "Hace 2 semanas",
+  },
+  {
+    id: 10,
+    name: "Leo Giménez",
+    rating: 5,
+    text: "Pintó un mural en el salón de mi casa y le dio vida al espacio. El talento que tiene con el aerosol es de otro planeta.",
+    date: "Hace 3 meses",
+  },
+];
+
 const GOOGLE_REVIEW_URL =
   "https://www.google.com/maps?sca_esv=c76ec80322be5402&output=search&q=lunfardo+tattoo&source=lnms&fbs=ABfTbFVyMZGZf1hfvX9uKjN_-G8c4u0nXx4bEIpwm1lnNH832VstEKsVDqPorK0Gahnm2no1YAFtlsByIZaJlK7yr6gIQnNXX16KI5TUYfGThGd0K0jJO7sUAqEUhqNyzNIeEtdWK_A2onKhMr-rMvWGPv8PHpQePAlnY3skSyPveMzBIVeM8I1D5i73MRXFxjQnGTg9Ql4hYFuK3ugU-TxSL3rqWIfobQ&entry=mc&ved=1t:200715&ictx=111";
 
@@ -97,6 +135,7 @@ function ReviewCard({ review }: { review: Review }) {
 export function Reviews() {
   // Triple for seamless infinite loop
   const marquee = [...REVIEWS, ...REVIEWS, ...REVIEWS];
+  const marqueeReverse = [...REVIEWS2, ...REVIEWS2, ...REVIEWS2];
 
   return (
     <section
@@ -133,7 +172,7 @@ export function Reviews() {
 
       {/* ── marquee ── */}
       <Reveal delay={0.2}>
-        <div className="relative z-10 flex w-full overflow-x-hidden py-4 [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]">
+        <div className="relative z-10 flex flex-col gap-6 w-full overflow-x-hidden py-4 [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]">
           <style
             dangerouslySetInnerHTML={{
               __html: `
@@ -141,11 +180,19 @@ export function Reviews() {
                 0% { transform: translateX(0%); }
                 100% { transform: translateX(-33.3333%); }
               }
+              @keyframes lunfardo-marquee-reverse {
+                0% { transform: translateX(-33.3333%); }
+                100% { transform: translateX(0%); }
+              }
               .marquee-track {
                 animation: lunfardo-marquee 40s linear infinite;
                 will-change: transform;
               }
-              .marquee-track:hover {
+              .marquee-track-reverse {
+                animation: lunfardo-marquee-reverse 40s linear infinite;
+                will-change: transform;
+              }
+              .marquee-track:hover, .marquee-track-reverse:hover {
                 animation-play-state: paused;
               }
             `,
@@ -153,7 +200,12 @@ export function Reviews() {
           />
           <div className="marquee-track flex w-max gap-6">
             {marquee.map((review, i) => (
-              <ReviewCard key={`${review.id}-${i}`} review={review} />
+              <ReviewCard key={`fwd-${review.id}-${i}`} review={review} />
+            ))}
+          </div>
+          <div className="marquee-track-reverse flex w-max gap-6">
+            {marqueeReverse.map((review, i) => (
+              <ReviewCard key={`rev-${review.id}-${i}`} review={review} />
             ))}
           </div>
         </div>
@@ -165,7 +217,7 @@ export function Reviews() {
           <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
             ¿Ya nos visitaste? Nos encantaría conocer tu experiencia.
           </p>
-          <MagneticButton href={GOOGLE_REVIEW_URL} variant="ghost">
+          <MagneticButton href={GOOGLE_REVIEW_URL} variant="solid">
             <span className="inline-flex items-center gap-2">
               Dejar una Reseña
               <ExternalLink className="h-3.5 w-3.5" />
