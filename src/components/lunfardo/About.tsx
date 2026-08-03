@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
-import artistImg from "@/assets/artist.jpg";
+import artistImg from "@/assets/artist1.png";
 import { MaskReveal, Reveal, TextReveal } from "./Reveal";
 
 export function About() {

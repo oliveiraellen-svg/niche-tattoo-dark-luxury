@@ -6,6 +6,8 @@ import { About } from "@/components/lunfardo/About";
 import { Services } from "@/components/lunfardo/Services";
 import { Gallery } from "@/components/lunfardo/Gallery";
 import { Contact } from "@/components/lunfardo/Contact";
+import { BudgetEstimator } from "@/components/lunfardo/BudgetEstimator";
+import { Reviews } from "@/components/lunfardo/Reviews";
 import { Footer } from "@/components/lunfardo/Footer";
 import { CustomCursor } from "@/components/lunfardo/CustomCursor";
 
@@ -48,6 +50,8 @@ function Index() {
         <About />
         <Services />
         <Gallery />
+        <BudgetEstimator />
+        <Reviews />
         <Contact />
       </main>
       <Footer />
