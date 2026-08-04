@@ -11,10 +11,20 @@ export function FloatingWhatsApp() {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group fixed bottom-6 right-6 z-[100] flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-[0_4px_24px_rgba(37,211,102,0.4)] transition-all duration-500 hover:scale-110 hover:shadow-[0_6px_32px_rgba(37,211,102,0.6)] md:bottom-10 md:right-10 md:h-16 md:w-16"
+      className="group fixed bottom-6 right-6 z-[100] flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-[0_4px_24px_rgba(37,211,102,0.4)] md:bottom-10 md:right-10 md:h-16 md:w-16"
       initial={{ opacity: 0, y: 50, scale: 0.5 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.8, delay: 1, ease: [0.22, 1, 0.36, 1] }}
+      animate={{ 
+        opacity: 1, 
+        y: 0, 
+        scale: 1,
+        transition: { duration: 0.8, delay: 1, ease: [0.22, 1, 0.36, 1] }
+      }}
+      whileHover={{ 
+        scale: 1.1, 
+        boxShadow: "0 6px 32px rgba(37,211,102,0.6)",
+        transition: { duration: 0.3, ease: "easeOut" }
+      }}
+      whileTap={{ scale: 0.95 }}
       aria-label="Contactar por WhatsApp"
     >
       <svg
