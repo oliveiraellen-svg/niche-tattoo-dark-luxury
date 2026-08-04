@@ -57,14 +57,32 @@ export const ExpandableGallery: React.FC<ExpandableGalleryProps> = ({ items, cla
             style={{ flex: 1 }}
             animate={{ flex: getFlexValue(index) }}
             transition={{ duration: 0.5, ease: 'easeInOut' }}
-            onMouseEnter={() => setHoveredIndex(index)}
-            onMouseLeave={() => setHoveredIndex(null)}
-            onClick={() => openImage(index)}
+            onMouseEnter={() => {
+              if (window.matchMedia('(hover: hover)').matches) {
+                setHoveredIndex(index);
+              }
+            }}
+            onMouseLeave={() => {
+              if (window.matchMedia('(hover: hover)').matches) {
+                setHoveredIndex(null);
+              }
+            }}
+            onClick={() => {
+              if (window.matchMedia('(hover: none)').matches) {
+                if (hoveredIndex === index) {
+                  openImage(index);
+                } else {
+                  setHoveredIndex(index);
+                }
+              } else {
+                openImage(index);
+              }
+            }}
           >
             <img
               src={item.src}
               alt={`${item.style} — Lunfardo Tattoo`}
-              className="w-full h-full object-cover transition-all duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.07]"
+              className="w-full h-full object-cover transition-all duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] md:group-hover:scale-[1.07]"
               style={{
                 filter: hoveredIndex !== null && hoveredIndex !== index ? 'brightness(0.3)' : 'brightness(0.85)'
               }}
