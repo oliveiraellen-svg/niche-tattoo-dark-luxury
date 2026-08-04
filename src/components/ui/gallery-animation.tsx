@@ -48,15 +48,15 @@ export const ExpandableGallery: React.FC<ExpandableGalleryProps> = ({ items, cla
 
   return (
     <div className={className}>
-      {/* Horizontal Expandable Gallery */}
-      <div className="flex gap-2 h-[500px] w-full">
+      {/* Expandable Gallery (Vertical on Mobile, Horizontal on Desktop) */}
+      <div className="flex flex-col md:flex-row gap-2 h-[600px] md:h-[500px] w-full">
         {items.map((item, index) => (
           <motion.div
             key={item.src}
             className="group relative cursor-pointer overflow-hidden rounded-md border border-border transition-colors duration-700 hover:border-gold/40"
             style={{ flex: 1 }}
             animate={{ flex: getFlexValue(index) }}
-            transition={{ duration: 0.5, ease: 'easeInOut' }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             onMouseEnter={() => {
               if (window.matchMedia('(hover: hover)').matches) {
                 setHoveredIndex(index);
