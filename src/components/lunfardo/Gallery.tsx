@@ -10,6 +10,17 @@ import coverup from "@/assets/work-coverup.jpg";
 import mural1 from "@/assets/work-mural-1.jpg";
 import mural2 from "@/assets/work-mural-2.jpg";
 
+import t1 from "@/assets/Imagen-de-WhatsApp-2025-03-21-a-las-09.48.35_603c811a-768x1024.webp";
+import t2 from "@/assets/Imagen-de-WhatsApp-2025-03-21-a-las-09.50.12_174f526d-768x1024.webp";
+import t3 from "@/assets/Imagen-de-WhatsApp-2025-03-21-a-las-09.51.19_c058714f-768x1024.webp";
+import t4 from "@/assets/Imagen-de-WhatsApp-2025-03-21-a-las-09.52.13_7e92aa2a-768x1024.webp";
+import t5 from "@/assets/Imagen-de-WhatsApp-2025-03-21-a-las-09.52.32_27d53f8f-585x1024.webp";
+import t6 from "@/assets/buho-tattoo-1-768x1024.webp";
+import t7 from "@/assets/face-tattoo-818x1024.webp";
+import t8 from "@/assets/ilustracion_sin_titulo.webp";
+import t9 from "@/assets/ilustracion_sin_titulo2.webp";
+import t10 from "@/assets/img_8462.webp";
+
 type Cat = "Tattoos" | "Murales";
 
 const works: {
@@ -27,6 +38,16 @@ const works: {
   { src: tradicional, style: "Tradicional", cat: "Tattoos", w: 1024, h: 1024 },
   { src: mural1, style: "Mural · Interior", cat: "Murales", w: 1400, h: 1024 },
   { src: mural2, style: "Mural · Gran formato", cat: "Murales", w: 1024, h: 1280, span: "row-span-2" },
+  { src: t1, style: "Tattoo", cat: "Tattoos", w: 768, h: 1024 },
+  { src: t2, style: "Tattoo", cat: "Tattoos", w: 768, h: 1024 },
+  { src: t3, style: "Tattoo", cat: "Tattoos", w: 768, h: 1024 },
+  { src: t4, style: "Tattoo", cat: "Tattoos", w: 768, h: 1024 },
+  { src: t5, style: "Tattoo", cat: "Tattoos", w: 585, h: 1024 },
+  { src: t6, style: "Búho", cat: "Tattoos", w: 768, h: 1024 },
+  { src: t7, style: "Retrato", cat: "Tattoos", w: 818, h: 1024 },
+  { src: t8, style: "Ilustración", cat: "Tattoos", w: 1024, h: 1024 },
+  { src: t9, style: "Ilustración", cat: "Tattoos", w: 1024, h: 1024 },
+  { src: t10, style: "Tattoo", cat: "Tattoos", w: 1024, h: 1024 },
 ];
 
 export function Gallery() {
