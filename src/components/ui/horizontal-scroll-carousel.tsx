@@ -1,4 +1,4 @@
-import { motion, useTransform, useScroll } from "motion/react";
+import { motion, useTransform, useScroll, useSpring } from "motion/react";
 import { useRef } from "react";
 
 interface CarouselProps {
@@ -17,13 +17,20 @@ export const HorizontalScrollCarousel = ({ items }: CarouselProps) => {
     target: targetRef,
   });
 
+  // Apply spring physics for smoother inertia during scroll
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
   // Transform scroll progress to horizontal translation
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-90%"]);
+  const x = useTransform(smoothProgress, [0, 1], ["0%", "-90%"]);
 
   return (
     <section ref={targetRef} className="relative h-[300vh] w-full">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-        <motion.div style={{ x }} className="flex gap-6 pl-4 md:pl-12">
+        <motion.div style={{ x }} className="flex gap-6 pl-4 md:pl-12 will-change-transform">
           {items.map((item, index) => {
             return <Card card={item} key={index} />;
           })}
