@@ -89,7 +89,7 @@ const REVIEWS2: Review[] = [
 ];
 
 const GOOGLE_REVIEW_URL =
-  "https://www.google.com/maps?sca_esv=c76ec80322be5402&output=search&q=lunfardo+tattoo&source=lnms&fbs=ABfTbFVyMZGZf1hfvX9uKjN_-G8c4u0nXx4bEIpwm1lnNH832VstEKsVDqPorK0Gahnm2no1YAFtlsByIZaJlK7yr6gIQnNXX16KI5TUYfGThGd0K0jJO7sUAqEUhqNyzNIeEtdWK_A2onKhMr-rMvWGPv8PHpQePAlnY3skSyPveMzBIVeM8I1D5i73MRXFxjQnGTg9Ql4hYFuK3ugU-TxSL3rqWIfobQ&entry=mc&ved=1t:200715&ictx=111";
+  "https://www.google.com/maps/place/Lunfardo+Tattoo/@38.6261976,-0.5751578,17z/data=!4m16!1m9!3m8!1s0x6bdc05fe67ad91a3:0xfdf136ae52ea6c6d!2sLunfardo+Tattoo!8m2!3d38.62603!4d-0.57519!9m1!1b1!16s%2Fg%2F11lthxxyhd!3m5!1s0x6bdc05fe67ad91a3:0xfdf136ae52ea6c6d!8m2!3d38.62603!4d-0.57519!16s%2Fg%2F11lthxxyhd?entry=ttu&g_ep=EgoyMDI2MDcyOS4wIKXMDSoASAFQAw%3D%3D";
 
 /* ────────────────────────────────────────────────────── stars */
 
