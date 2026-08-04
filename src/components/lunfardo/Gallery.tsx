@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Reveal, TextReveal } from "./Reveal";
-import { ExpandableGallery } from "@/components/ui/gallery-animation";
+import { HorizontalScrollCarousel } from "@/components/ui/horizontal-scroll-carousel";
 
 import m1 from "@/assets/IMG_7709-1-600x800.webp";
 import m2 from "@/assets/calavera-600x800.webp";
@@ -84,7 +84,7 @@ export function Gallery() {
 
         <Reveal delay={0.3}>
           <div className="mt-16 w-full">
-            <ExpandableGallery items={visible} />
+            <HorizontalScrollCarousel items={visible} />
           </div>
         </Reveal>
       </div>
