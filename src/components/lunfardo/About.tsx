@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform, useSpring } from "motion/react";
 import artistImg from "@/assets/artist1.png";
 import { MaskReveal, Reveal, TextReveal } from "./Reveal";
 
@@ -9,7 +9,14 @@ export function About() {
     target: ref,
     offset: ["start end", "end start"],
   });
-  const y = useTransform(scrollYProgress, [0, 1], ["-8%", "12%"]);
+  
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  const y = useTransform(smoothProgress, [0, 1], ["-8%", "12%"]);
 
   return (
     <section
@@ -27,7 +34,7 @@ export function About() {
                 width={1024}
                 height={1408}
                 loading="lazy"
-                className="h-[112%] w-full object-cover"
+                className="h-[112%] w-full object-cover will-change-transform"
               />
               <div className="pointer-events-none absolute inset-0 bg-black/30" />
             </MaskReveal>
