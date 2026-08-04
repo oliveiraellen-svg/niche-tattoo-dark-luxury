@@ -17,7 +17,7 @@ export function FloatingWhatsApp() {
         opacity: 1, 
         y: 0, 
         scale: 1,
-        transition: { duration: 0.8, delay: 1, ease: [0.22, 1, 0.36, 1] }
+        transition: { duration: 1.0, delay: 2.4, ease: [0.22, 1, 0.36, 1] }
       }}
       whileHover={{ 
         scale: 1.1, 
