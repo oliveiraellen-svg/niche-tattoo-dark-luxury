@@ -1,10 +1,11 @@
 import { motion } from "motion/react";
 
 export function FloatingWhatsApp() {
-  const WHATSAPP_NUMBER = "34600000000"; // Replace with actual number
-  const WHATSAPP_MESSAGE = "Hola! Me gustaría hacer una consulta para un tatuaje/mural.";
+  const WA_BASE = "https://api.whatsapp.com/message/OIDQ3CNT5KEZA1";
+  const WA_PARAMS = "autoload=1&app_absent=0";
+  const WHATSAPP_MESSAGE = "¡Hola! Vengo desde el sitio web y me gustaría hacer una consulta general.";
   
-  const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+  const href = `${WA_BASE}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}&${WA_PARAMS}`;
 
   return (
     <motion.a

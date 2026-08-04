@@ -1,59 +1,9 @@
-import { useState } from "react";
 import { MapPin, Phone, Clock } from "lucide-react";
-import { toast } from "sonner";
 import { MagneticButton } from "./MagneticButton";
 import { MaskReveal, Reveal, TextReveal } from "./Reveal";
 
-function Field({
-  label,
-  name,
-  type = "text",
-  textarea = false,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  textarea?: boolean;
-}) {
-  return (
-    <label className="group block">
-      <span className="eyebrow block pb-3 transition-colors duration-500 group-focus-within:text-gold">
-        {label}
-      </span>
-      {textarea ? (
-        <textarea
-          name={name}
-          rows={4}
-          required
-          className="w-full resize-none border-0 border-b border-border bg-transparent pb-3 text-base text-foreground outline-none transition-colors duration-500 placeholder:text-muted-foreground/50 focus:border-gold"
-        />
-      ) : (
-        <input
-          name={name}
-          type={type}
-          required
-          className="w-full border-0 border-b border-border bg-transparent pb-3 text-base text-foreground outline-none transition-colors duration-500 placeholder:text-muted-foreground/50 focus:border-gold"
-        />
-      )}
-    </label>
-  );
-}
-
 export function Contact() {
-  const [sending, setSending] = useState(false);
-
-  const submit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    setSending(true);
-    setTimeout(() => {
-      setSending(false);
-      form.reset();
-      toast.success("Solicitud enviada", {
-        description: "Te contactaremos para confirmar tu cita.",
-      });
-    }, 900);
-  };
+  const WA_LINK = "https://api.whatsapp.com/message/OIDQ3CNT5KEZA1?text=%C2%A1Hola!%20Me%20gustar%C3%ADa%20hacerles%20una%20consulta.&autoload=1&app_absent=0";
 
   return (
     <section id="contacto" className="grain relative px-6 py-28 md:px-12 md:py-40">
@@ -68,17 +18,16 @@ export function Contact() {
           </h2>
 
           <Reveal delay={0.15}>
-            <form onSubmit={submit} className="mt-14 space-y-10">
-              <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
-                <Field label="Nombre" name="nombre" />
-                <Field label="Email" name="email" type="email" />
-              </div>
-              <Field label="Asunto" name="asunto" />
-              <Field label="Tu idea o duda" name="idea" textarea />
-              <MagneticButton type="submit">
-                {sending ? "Enviando…" : "Enviar solicitud"}
-              </MagneticButton>
-            </form>
+            <p className="mt-8 max-w-lg text-lg leading-relaxed text-muted-foreground">
+              Preferimos el trato directo y personalizado. Escríbenos por WhatsApp para resolver dudas rápidas, enviarnos tus ideas o coordinar una cita en nuestro estudio privado.
+            </p>
+            <div className="mt-12">
+              <a href={WA_LINK} target="_blank" rel="noopener noreferrer">
+                <MagneticButton>
+                  Escríbenos por WhatsApp
+                </MagneticButton>
+              </a>
+            </div>
           </Reveal>
         </div>
 
@@ -87,9 +36,9 @@ export function Contact() {
             {[
               {
                 icon: Phone,
-                label: "Teléfono",
+                label: "WhatsApp",
                 value: "+34 603 34 28 74",
-                href: "tel:+34603342874",
+                href: WA_LINK,
               },
               {
                 icon: MapPin,

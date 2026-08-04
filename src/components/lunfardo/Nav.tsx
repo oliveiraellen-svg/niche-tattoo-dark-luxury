@@ -9,6 +9,8 @@ const links = [
   { label: "Contacto", href: "#contacto" },
 ];
 
+const WA_LINK = "https://api.whatsapp.com/message/OIDQ3CNT5KEZA1?text=%C2%A1Hola!%20Vengo%20desde%20el%20sitio%20web%20y%20me%20gustar%C3%ADa%20contactarme%20con%20el%20estudio.&autoload=1&app_absent=0";
+
 export function Nav() {
   const [open, setOpen] = useState(false);
   const [solid, setSolid] = useState(false);
@@ -50,7 +52,9 @@ export function Nav() {
               </a>
             ))}
             <a
-              href="tel:+34603342874"
+              href={WA_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.25em] text-gold"
             >
               <Phone className="h-3.5 w-3.5" strokeWidth={1.5} />
@@ -110,7 +114,7 @@ export function Nav() {
 
               <div className="space-y-2">
                 <div className="hairline" />
-                <a href="tel:+34603342874" className="block pt-4 text-sm text-gold">
+                <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="block pt-4 text-sm text-gold">
                   +34 603 34 28 74
                 </a>
                 <p className="text-xs leading-relaxed text-muted-foreground">

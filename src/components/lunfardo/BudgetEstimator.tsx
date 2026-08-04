@@ -24,10 +24,7 @@ interface EstimatorState {
   service: ServiceType | "";
   placementOrSize: string;
   style: string;
-  references: File[];
   name: string;
-  email: string;
-  phone: string;
   notes: string;
 }
 
@@ -98,8 +95,9 @@ const STYLES = [
   },
 ];
 
-const WHATSAPP_NUMBER = "34603342874";
-const TOTAL_STEPS = 5;
+const WA_BASE = "https://api.whatsapp.com/message/OIDQ3CNT5KEZA1";
+const WA_PARAMS = "autoload=1&app_absent=0";
+const TOTAL_STEPS = 4;
 
 /* ────────────────────────────────────────────────────── animation */
 
@@ -130,10 +128,7 @@ export function BudgetEstimator() {
     service: "",
     placementOrSize: "",
     style: "",
-    references: [],
     name: "",
-    email: "",
-    phone: "",
     notes: "",
   });
 
@@ -163,41 +158,6 @@ export function BudgetEstimator() {
     goNext();
   };
 
-  const handleDrag = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") setDragActive(true);
-    else if (e.type === "dragleave") setDragActive(false);
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-    if (e.dataTransfer.files?.[0]) {
-      setFormData((p) => ({
-        ...p,
-        references: [...p.references, ...Array.from(e.dataTransfer.files)],
-      }));
-    }
-  };
-
-  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) {
-      setFormData((p) => ({
-        ...p,
-        references: [...p.references, ...Array.from(e.target.files!)],
-      }));
-    }
-  };
-
-  const removeFile = (index: number) => {
-    setFormData((p) => ({
-      ...p,
-      references: p.references.filter((_, i) => i !== index),
-    }));
-  };
-
   const handleText = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -218,15 +178,13 @@ export function BudgetEstimator() {
         `▪ *Servicio:* ${serviceLabel}\n` +
         `▪ *Medidas/Colocación:* ${formData.placementOrSize}\n` +
         `▪ *Estilo:* ${formData.style}\n` +
-        `▪ *Imágenes de Referencia:* ${formData.references.length} adjuntas\n` +
         `▪ *Nombre:* ${formData.name}\n` +
-        `▪ *Contacto:* Tel: ${formData.phone} / Email: ${formData.email}\n` +
         `▪ *Detalles:* ${formData.notes || "Sin notas adicionales."}`,
     );
 
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
+    window.open(`${WA_BASE}?text=${msg}&${WA_PARAMS}`, "_blank");
     setDirection(1);
-    setStep(6);
+    setStep(5);
   };
 
   /* ── sub-renders ── */
@@ -394,84 +352,8 @@ export function BudgetEstimator() {
                   </motion.div>
                 )}
 
-                {/* ── STEP 4 — References ── */}
+                {/* ── STEP 4 — Contact ── */}
                 {step === 4 && (
-                  <motion.div
-                    key="s4"
-                    custom={direction}
-                    variants={slideVariants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    className="space-y-6"
-                  >
-                    <h3 className="text-center font-display text-xl tracking-wide text-foreground md:text-2xl">
-                      Imágenes de Referencia (Opcional)
-                    </h3>
-                    <p className="mx-auto max-w-sm text-center text-[0.625rem] leading-relaxed text-muted-foreground">
-                      Sube capturas, fotos de la zona corporal o mural, o
-                      bocetos que inspiren tu idea.
-                    </p>
-
-                    {/* dropzone */}
-                    <div
-                      onDragEnter={handleDrag}
-                      onDragOver={handleDrag}
-                      onDragLeave={handleDrag}
-                      onDrop={handleDrop}
-                      className={`relative w-full cursor-pointer rounded-xl border-2 border-dashed p-8 text-center transition-colors duration-300 ${
-                        dragActive
-                          ? "border-gold bg-gold/5"
-                          : "border-border bg-ink-soft/20 hover:border-gold/40"
-                      }`}
-                    >
-                      <input
-                        type="file"
-                        multiple
-                        accept="image/*"
-                        onChange={handleFileInput}
-                        className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-                      />
-                      <Upload className="mx-auto mb-3 h-7 w-7 text-gold" />
-                      <span className="mb-1 block text-xs text-foreground">
-                        Arrastra tus imágenes aquí o haz clic para buscar
-                      </span>
-                      <span className="block text-[0.5625rem] text-muted-foreground">
-                        Formatos admitidos: JPG, PNG, WEBP
-                      </span>
-                    </div>
-
-                    {/* thumbnails */}
-                    {formData.references.length > 0 && (
-                      <div className="mt-4 grid grid-cols-4 gap-3">
-                        {formData.references.map((file, i) => (
-                          <div
-                            key={i}
-                            className="group relative aspect-square overflow-hidden rounded-lg border border-border"
-                          >
-                            <img
-                              src={URL.createObjectURL(file)}
-                              alt="preview"
-                              className="h-full w-full object-cover"
-                            />
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                removeFile(i);
-                              }}
-                              className="absolute inset-0 flex items-center justify-center bg-black/60 text-xs font-bold text-destructive opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-                            >
-                              Eliminar
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </motion.div>
-                )}
-
-                {/* ── STEP 5 — Contact ── */}
-                {step === 5 && (
                   <motion.div
                     key="s5"
                     custom={direction}
@@ -503,34 +385,6 @@ export function BudgetEstimator() {
                         />
                       </div>
 
-                      {/* email + phone */}
-                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <div className="relative">
-                          <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gold/60" />
-                          <input
-                            required
-                            type="email"
-                            name="email"
-                            placeholder="Correo Electrónico"
-                            value={formData.email}
-                            onChange={handleText}
-                            className="w-full rounded-xl border border-border bg-ink-soft/40 py-3 pl-10 pr-4 text-xs text-foreground outline-none transition-colors duration-300 focus:border-gold"
-                          />
-                        </div>
-                        <div className="relative">
-                          <Phone className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gold/60" />
-                          <input
-                            required
-                            type="tel"
-                            name="phone"
-                            placeholder="WhatsApp / Teléfono"
-                            value={formData.phone}
-                            onChange={handleText}
-                            className="w-full rounded-xl border border-border bg-ink-soft/40 py-3 pl-10 pr-4 text-xs text-foreground outline-none transition-colors duration-300 focus:border-gold"
-                          />
-                        </div>
-                      </div>
-
                       {/* notes */}
                       <textarea
                         name="notes"
@@ -554,10 +408,10 @@ export function BudgetEstimator() {
                   </motion.div>
                 )}
 
-                {/* ── STEP 6 — Success ── */}
-                {step === 6 && (
+                {/* ── STEP 5 — Success ── */}
+                {step === 5 && (
                   <motion.div
-                    key="s6"
+                    key="s5"
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{
@@ -584,10 +438,7 @@ export function BudgetEstimator() {
                           service: "",
                           placementOrSize: "",
                           style: "",
-                          references: [],
                           name: "",
-                          email: "",
-                          phone: "",
                           notes: "",
                         });
                       }}
