@@ -28,7 +28,7 @@ export function Nav() {
       <motion.header
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1.0, delay: 2.3, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.8, delay: 2.22, ease: [0.22, 1, 0.36, 1] }}
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-700 ${
           solid ? "glass py-4" : "py-7"
         }`}

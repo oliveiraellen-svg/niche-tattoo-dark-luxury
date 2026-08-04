@@ -212,7 +212,7 @@ export function Reviews() {
       </Reveal>
 
       {/* ── CTA button ── */}
-      <Reveal delay={0.3}>
+      <Reveal delay={0.2}>
         <div className="relative z-10 mt-14 flex flex-col items-center gap-4 text-center">
           <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
             ¿Ya nos visitaste? Nos encantaría conocer tu experiencia.
