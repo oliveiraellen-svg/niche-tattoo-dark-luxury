@@ -29,6 +29,7 @@ export function About() {
                 loading="lazy"
                 className="h-[112%] w-full object-cover"
               />
+              <div className="pointer-events-none absolute inset-0 bg-black/30" />
             </MaskReveal>
             <Reveal
               delay={0.4}
