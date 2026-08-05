@@ -1,6 +1,8 @@
 import { Star, ExternalLink } from "lucide-react";
 import { Reveal, TextReveal } from "./Reveal";
 import { MagneticButton } from "./MagneticButton";
+import { motion, useAnimationFrame, useMotionValue } from "motion/react";
+import { useRef } from "react";
 
 /* ────────────────────────────────────────────────────── data */
 
@@ -156,6 +158,68 @@ function ReviewCard({ review }: { review: Review }) {
 
 /* ────────────────────────────────────────────────────── component */
 
+function DraggableMarquee({ items, reverse = false }: { items: Review[], reverse?: boolean }) {
+  const baseX = useMotionValue(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isHovered = useRef(false);
+
+  useAnimationFrame((t, delta) => {
+    if (isHovered.current) return;
+    
+    // speed based on delta (time passed) to keep it smooth regardless of framerate
+    let moveBy = reverse ? (delta * 0.05) : -(delta * 0.05);
+    let nextValue = baseX.get() + moveBy;
+    
+    if (containerRef.current) {
+      // The track contains 3 copies of the items, so 1 set is 1/3 of the total width
+      const trackWidth = containerRef.current.scrollWidth;
+      const setWidth = trackWidth / 3;
+      
+      // Infinite wrap logic
+      if (nextValue > 0) {
+        nextValue = (nextValue % setWidth) - setWidth;
+      } else {
+        nextValue = nextValue % setWidth;
+      }
+    }
+    
+    baseX.set(nextValue);
+  });
+
+  return (
+    <div 
+      className="overflow-hidden w-full touch-none"
+      onPointerEnter={() => (isHovered.current = true)}
+      onPointerLeave={() => (isHovered.current = false)}
+      onTouchStart={() => (isHovered.current = true)}
+      onTouchEnd={() => (isHovered.current = false)}
+    >
+      <motion.div 
+        ref={containerRef}
+        style={{ x: baseX }} 
+        drag="x"
+        dragConstraints={{ left: -100000, right: 100000 }}
+        dragElastic={0}
+        dragMomentum={true}
+        onDrag={(e, info) => {
+          // Keep bounding within the wrap limits during drag to avoid visual jumps
+          if (containerRef.current) {
+             const setWidth = containerRef.current.scrollWidth / 3;
+             let val = baseX.get();
+             if (val > 0) baseX.set((val % setWidth) - setWidth);
+             else baseX.set(val % setWidth);
+          }
+        }}
+        className="flex w-max gap-6 cursor-grab active:cursor-grabbing px-6 will-change-transform"
+      >
+        {items.map((review, i) => (
+          <ReviewCard key={i} review={review} />
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
 export function Reviews() {
   // Triple for seamless infinite loop
   const marquee = [...REVIEWS, ...REVIEWS, ...REVIEWS];
@@ -196,42 +260,9 @@ export function Reviews() {
 
       {/* ── marquee ── */}
       <Reveal delay={0.2}>
-        <div className="relative z-10 flex flex-col gap-6 w-full overflow-x-hidden py-4 [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]">
-          <style
-            dangerouslySetInnerHTML={{
-              __html: `
-              @keyframes lunfardo-marquee {
-                0% { transform: translateX(0%); }
-                100% { transform: translateX(-33.3333%); }
-              }
-              @keyframes lunfardo-marquee-reverse {
-                0% { transform: translateX(-33.3333%); }
-                100% { transform: translateX(0%); }
-              }
-              .marquee-track {
-                animation: lunfardo-marquee 40s linear infinite;
-                will-change: transform;
-              }
-              .marquee-track-reverse {
-                animation: lunfardo-marquee-reverse 40s linear infinite;
-                will-change: transform;
-              }
-              .marquee-track:hover, .marquee-track-reverse:hover {
-                animation-play-state: paused;
-              }
-            `,
-            }}
-          />
-          <div className="marquee-track flex w-max gap-6">
-            {marquee.map((review, i) => (
-              <ReviewCard key={`fwd-${review.id}-${i}`} review={review} />
-            ))}
-          </div>
-          <div className="marquee-track-reverse flex w-max gap-6">
-            {marqueeReverse.map((review, i) => (
-              <ReviewCard key={`rev-${review.id}-${i}`} review={review} />
-            ))}
-          </div>
+        <div className="relative z-10 flex flex-col gap-6 w-full py-4 [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]">
+          <DraggableMarquee items={marquee} />
+          <DraggableMarquee items={marqueeReverse} reverse />
         </div>
       </Reveal>
 
