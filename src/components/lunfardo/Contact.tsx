@@ -1,9 +1,13 @@
 import { MapPin, Phone, Clock } from "lucide-react";
 import { MagneticButton } from "./MagneticButton";
 import { MaskReveal, Reveal, TextReveal } from "./Reveal";
+import { useRef } from "react";
+import { useInView } from "motion/react";
 
 export function Contact() {
   const WA_LINK = "https://api.whatsapp.com/message/OIDQ3CNT5KEZA1?text=%C2%A1Hola!%20Me%20gustar%C3%ADa%20hacerles%20una%20consulta.&autoload=1&app_absent=0";
+  const mapRef = useRef<HTMLDivElement>(null);
+  const isMapInView = useInView(mapRef, { once: true, margin: "200px" });
 
   return (
     <section id="contacto" className="grain relative px-6 py-28 md:px-12 md:py-40">
@@ -78,14 +82,16 @@ export function Contact() {
           </div>
 
           <MaskReveal from="bottom" delay={0.2} className="mt-12">
-            <div className="relative h-[320px] overflow-hidden border border-border">
-              <iframe
-                title="Ubicación de Lunfardo Tattoo en Ibi, Alicante"
-                src="https://www.google.com/maps?q=Carrer%20Paca%20Guillem%2010%2C%2003440%20Ibi%2C%20Alicante&output=embed"
-                className="h-full w-full opacity-70 grayscale contrast-125 invert-[0.92] hue-rotate-180"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+            <div ref={mapRef} className="relative h-[320px] overflow-hidden border border-border bg-ink-soft/30">
+              {isMapInView && (
+                <iframe
+                  title="Ubicación de Lunfardo Tattoo en Ibi, Alicante"
+                  src="https://www.google.com/maps?q=Carrer%20Paca%20Guillem%2010%2C%2003440%20Ibi%2C%20Alicante&output=embed"
+                  className="h-full w-full opacity-70 grayscale contrast-125 invert-[0.92] hue-rotate-180"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              )}
             </div>
           </MaskReveal>
         </div>
