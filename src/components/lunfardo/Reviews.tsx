@@ -198,6 +198,7 @@ function DraggableMarquee({ items, reverse = false }: { items: Review[], reverse
         ref={containerRef}
         style={{ x: baseX }} 
         drag="x"
+        dragDirectionLock={true}
         dragConstraints={{ left: -100000, right: 100000 }}
         dragElastic={0}
         dragMomentum={true}
