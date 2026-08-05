@@ -51,15 +51,6 @@ const Card = ({ card }: { card: CarouselProps["items"][0] }) => {
         }}
         className="absolute inset-0 z-0 transition-transform duration-700 ease-[0.22,1,0.36,1] group-hover:scale-105"
       ></div>
-      <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/0 to-transparent pointer-events-none" />
-      <div className="absolute inset-0 z-20 flex flex-col justify-end p-8 pointer-events-none">
-        <p className="font-display text-2xl tracking-[0.2em] text-white">
-          {card.style}
-        </p>
-        <p className="text-xs uppercase tracking-widest text-gold mt-2">
-          {card.cat}
-        </p>
-      </div>
     </div>
   );
 };
