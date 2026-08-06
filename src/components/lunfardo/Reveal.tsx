@@ -39,12 +39,7 @@ export function MaskReveal({
   delay?: number;
   className?: string;
 }) {
-  const exit =
-    from === "left"
-      ? { x: "100%" }
-      : from === "right"
-        ? { x: "-100%" }
-        : { y: "-100%" };
+  const exit = from === "left" ? { x: "100%" } : from === "right" ? { x: "-100%" } : { y: "-100%" };
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
@@ -84,7 +79,7 @@ export function TextReveal({
   stagger?: number;
 }) {
   return (
-    <motion.span 
+    <motion.span
       className={`inline-flex flex-wrap gap-x-[0.25em] ${className}`}
       initial="hidden"
       whileInView="visible"
@@ -95,8 +90,8 @@ export function TextReveal({
           transition: {
             staggerChildren: stagger,
             delayChildren: delay,
-          }
-        }
+          },
+        },
       }}
     >
       {text.split(" ").map((word, i) => (
@@ -108,11 +103,11 @@ export function TextReveal({
             className={`inline-block ${wordClassName}`}
             variants={{
               hidden: { y: "110%", opacity: 0 },
-              visible: { 
-                y: "0%", 
-                opacity: 1, 
-                transition: { duration: 1.2, ease: EASE } 
-              }
+              visible: {
+                y: "0%",
+                opacity: 1,
+                transition: { duration: 1.2, ease: EASE },
+              },
             }}
           >
             {word}
@@ -122,4 +117,3 @@ export function TextReveal({
     </motion.span>
   );
 }
-

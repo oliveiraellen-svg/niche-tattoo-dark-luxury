@@ -40,10 +40,7 @@ export function Services() {
   const [open, setOpen] = useState(0);
 
   return (
-    <section
-      id="especialidades"
-      className="grain depth-glow relative px-6 py-28 md:px-12 md:py-40"
-    >
+    <section id="especialidades" className="grain depth-glow relative px-6 py-28 md:px-12 md:py-40">
       <div className="mx-auto max-w-[1400px]">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
           <Reveal className="lg:col-span-4">
@@ -65,9 +62,7 @@ export function Services() {
                     className="group cursor-pointer border-t border-border py-7 last:border-b"
                   >
                     <div className="flex items-baseline gap-6">
-                      <span className="text-[0.65rem] tracking-[0.2em] text-gold/70">
-                        {s.n}
-                      </span>
+                      <span className="text-[0.65rem] tracking-[0.2em] text-gold/70">{s.n}</span>
                       <h3
                         className={`flex-1 font-display text-2xl transition-colors duration-500 sm:text-3xl ${
                           isOpen ? "text-gold" : "text-foreground"

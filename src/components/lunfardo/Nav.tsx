@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "motion/react";
 import { Menu, X, Phone } from "lucide-react";
+import { useTenant } from "@/config/TenantContext";
 
 const links = [
   { label: "Filosofía", href: "#filosofia" },
@@ -9,12 +10,13 @@ const links = [
   { label: "Contacto", href: "#contacto" },
 ];
 
-const WA_LINK = "https://api.whatsapp.com/message/OIDQ3CNT5KEZA1?text=%C2%A1Hola!%20Vengo%20desde%20el%20sitio%20web%20y%20me%20gustar%C3%ADa%20contactarme%20con%20el%20estudio.&autoload=1&app_absent=0";
-
 export function Nav() {
+  const tenant = useTenant();
   const [open, setOpen] = useState(false);
   const [solid, setSolid] = useState(false);
   const { scrollY } = useScroll();
+
+  const waLink = `https://wa.me/${tenant.contact.phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(tenant.contact.whatsappMessage)}`;
 
   useMotionValueEvent(scrollY, "change", (v) => setSolid(v > 80));
 
@@ -36,8 +38,17 @@ export function Nav() {
         }`}
       >
         <div className="mx-auto flex max-w-[1500px] items-center justify-between px-6 md:px-12">
-          <a href="#top" className="font-display text-xl tracking-[0.4em] text-foreground">
-            LUNFARDO
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:rounded focus:bg-background focus:px-4 focus:py-2 focus:text-foreground focus:ring-2 focus:ring-gold focus:outline-none"
+          >
+            Saltar al contenido principal
+          </a>
+          <a
+            href="#top"
+            className="font-display text-xl tracking-[0.4em] text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded"
+          >
+            {tenant.shortName.toUpperCase()}
           </a>
 
           <nav className="hidden items-center gap-10 md:flex">
@@ -52,20 +63,22 @@ export function Nav() {
               </a>
             ))}
             <a
-              href={WA_LINK}
+              href={waLink}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.25em] text-gold"
             >
               <Phone className="h-3.5 w-3.5" strokeWidth={1.5} />
-              603 34 28 74
+              Hablar por WhatsApp
             </a>
           </nav>
 
           <button
             aria-label="Abrir menú"
+            aria-expanded={open}
+            aria-controls="mobile-menu"
             onClick={() => setOpen(true)}
-            className="md:hidden"
+            className="md:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded p-1"
           >
             <Menu className="h-6 w-6 text-foreground" strokeWidth={1} />
           </button>
@@ -83,6 +96,7 @@ export function Nav() {
               onClick={() => setOpen(false)}
             />
             <motion.aside
+              id="mobile-menu"
               className="glass grain fixed inset-y-0 right-0 z-[70] flex w-[82%] max-w-sm flex-col justify-between p-8 md:hidden"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
@@ -91,7 +105,13 @@ export function Nav() {
             >
               <div className="flex items-center justify-between">
                 <span className="eyebrow">Menú</span>
-                <button aria-label="Cerrar menú" onClick={() => setOpen(false)}>
+                <button
+                  aria-label="Cerrar menú"
+                  aria-expanded={open}
+                  aria-controls="mobile-menu"
+                  onClick={() => setOpen(false)}
+                  className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded p-1"
+                >
                   <X className="h-5 w-5 text-foreground" strokeWidth={1} />
                 </button>
               </div>
@@ -114,13 +134,18 @@ export function Nav() {
 
               <div className="space-y-2">
                 <div className="hairline" />
-                <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="block pt-4 text-sm text-gold">
-                  +34 603 34 28 74
+                <a
+                  href={waLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block pt-4 text-sm text-gold"
+                >
+                  Hablar por WhatsApp
                 </a>
                 <p className="text-xs leading-relaxed text-muted-foreground">
-                  Carrer Paca Guillem, 10
+                  {tenant.address.street}
                   <br />
-                  03440 Ibi, Alicante
+                  {tenant.address.zip} {tenant.address.city}, {tenant.address.state}
                 </p>
               </div>
             </motion.aside>

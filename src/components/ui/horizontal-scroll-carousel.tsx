@@ -21,7 +21,7 @@ export const HorizontalScrollCarousel = ({ items }: CarouselProps) => {
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
-    restDelta: 0.001
+    restDelta: 0.001,
   });
 
   // Transform scroll progress to horizontal translation
@@ -43,14 +43,14 @@ export const HorizontalScrollCarousel = ({ items }: CarouselProps) => {
 const Card = ({ card }: { card: CarouselProps["items"][0] }) => {
   return (
     <div className="group relative h-[450px] w-[320px] shrink-0 overflow-hidden md:h-[600px] md:w-[450px] border border-border">
-      <div
-        style={{
-          backgroundImage: `url(${card.src})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-        className="absolute inset-0 z-0 transition-transform duration-700 ease-[0.22,1,0.36,1] group-hover:scale-105"
-      ></div>
+      <img
+        src={card.src}
+        alt={card.style}
+        loading="lazy"
+        width={card.w}
+        height={card.h}
+        className="absolute inset-0 z-0 h-full w-full object-cover transition-transform duration-700 ease-[0.22,1,0.36,1] group-hover:scale-105"
+      />
     </div>
   );
 };

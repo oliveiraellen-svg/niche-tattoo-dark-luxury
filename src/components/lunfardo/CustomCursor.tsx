@@ -8,6 +8,7 @@ export function CustomCursor() {
   const ringY = useSpring(y, { stiffness: 220, damping: 24, mass: 0.4 });
   const [active, setActive] = useState(false);
   const [enabled, setEnabled] = useState(false);
+  const [isKeyboardNav, setIsKeyboardNav] = useState(false);
 
   useEffect(() => {
     if (!window.matchMedia("(pointer: fine)").matches) return;
@@ -17,15 +18,26 @@ export function CustomCursor() {
       x.set(e.clientX);
       y.set(e.clientY);
       const target = e.target as HTMLElement | null;
-      setActive(
-        !!target?.closest("a, button, input, textarea, [data-cursor='hover']"),
-      );
+      setActive(!!target?.closest("a, button, input, textarea, [data-cursor='hover']"));
     };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Tab") setIsKeyboardNav(true);
+    };
+    const handleMouseDown = () => setIsKeyboardNav(false);
+
     window.addEventListener("pointermove", move);
-    return () => window.removeEventListener("pointermove", move);
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("mousedown", handleMouseDown);
+
+    return () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("mousedown", handleMouseDown);
+    };
   }, [x, y]);
 
-  if (!enabled) return null;
+  if (!enabled || isKeyboardNav) return null;
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[100] hidden md:block">

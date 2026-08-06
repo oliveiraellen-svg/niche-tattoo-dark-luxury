@@ -86,7 +86,8 @@
     color-mix(in oklab, var(--ink) 25%, transparent) 100%
   );
   --shadow-lift: 0 30px 90px -40px oklch(0 0 0 / 90%);
-  --shadow-glow: 0 0 0 1px color-mix(in oklab, var(--gold) 35%, transparent),
+  --shadow-glow:
+    0 0 0 1px color-mix(in oklab, var(--gold) 35%, transparent),
     0 18px 60px -25px color-mix(in oklab, var(--gold) 30%, transparent);
 }
 

@@ -15,6 +15,7 @@ import {
   Send,
 } from "lucide-react";
 import { Reveal, TextReveal } from "./Reveal";
+import { useTenant } from "@/config/TenantContext";
 
 /* ────────────────────────────────────────────────────── types */
 
@@ -95,8 +96,6 @@ const STYLES = [
   },
 ];
 
-const WA_BASE = "https://api.whatsapp.com/message/OIDQ3CNT5KEZA1";
-const WA_PARAMS = "autoload=1&app_absent=0";
 const TOTAL_STEPS = 4;
 
 /* ────────────────────────────────────────────────────── animation */
@@ -121,6 +120,9 @@ const slideVariants = {
 /* ────────────────────────────────────────────────────── component */
 
 export function BudgetEstimator() {
+  const tenant = useTenant();
+  const phone = tenant.contact.phone.replace(/[^0-9]/g, "");
+
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(1);
   const [dragActive, setDragActive] = useState(false);
@@ -158,9 +160,7 @@ export function BudgetEstimator() {
     goNext();
   };
 
-  const handleText = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleText = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((p) => ({ ...p, [e.target.name]: e.target.value }));
   };
 
@@ -174,7 +174,7 @@ export function BudgetEstimator() {
           : "Lienzo Fino";
 
     const msg = encodeURIComponent(
-      `¡Hola Lunfardo! Acabo de estimar mi presupuesto en la web:\n\n` +
+      `¡Hola ${tenant.shortName}! Acabo de estimar mi presupuesto en la web:\n\n` +
         `▪ *Servicio:* ${serviceLabel}\n` +
         `▪ *Medidas/Colocación:* ${formData.placementOrSize}\n` +
         `▪ *Estilo:* ${formData.style}\n` +
@@ -182,7 +182,7 @@ export function BudgetEstimator() {
         `▪ *Detalles:* ${formData.notes || "Sin notas adicionales."}`,
     );
 
-    window.open(`${WA_BASE}?text=${msg}&${WA_PARAMS}`, "_blank");
+    window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
     setDirection(1);
     setStep(5);
   };
@@ -207,11 +207,12 @@ export function BudgetEstimator() {
   return (
     <section
       id="cotizador"
+      aria-label="Cotizador de proyectos"
       className="grain relative px-6 py-20 md:px-12 md:py-28"
     >
       <div className="depth-glow pointer-events-none absolute inset-0" />
 
-      <div className="relative mx-auto max-w-4xl">
+      <div className="relative mx-auto max-w-4xl" aria-live="polite">
         {/* ── header ── */}
         <div className="mb-10 text-center">
           <Reveal>
@@ -222,8 +223,8 @@ export function BudgetEstimator() {
           </h2>
           <Reveal delay={0.15}>
             <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-muted-foreground">
-              Cuéntanos tu idea en unos pocos pasos. Recibe una aproximación de
-              tiempo y cotización directa de Lunfardo.
+              Cuéntanos tu idea en unos pocos pasos. Recibe una aproximación de tiempo y cotización
+              directa de Lunfardo.
             </p>
             <div className="hairline mx-auto mt-6 w-20" />
           </Reveal>
@@ -272,15 +273,13 @@ export function BudgetEstimator() {
                           key={s.id}
                           data-cursor="hover"
                           onClick={() => selectService(s.id)}
-                          className="group rounded-xl border border-border bg-ink-soft/40 p-6 text-center transition-all duration-500 hover:border-gold/50 hover:bg-gold/5"
+                          className="group rounded-xl border border-border bg-ink-soft/40 p-6 text-center transition-all duration-500 hover:border-gold/50 hover:bg-gold/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
                         >
                           <s.icon className="mx-auto mb-3 h-7 w-7 text-gold transition-transform duration-500 group-hover:scale-110" />
                           <span className="mb-1 block font-display text-sm text-foreground transition-colors duration-500 group-hover:text-gold">
                             {s.label}
                           </span>
-                          <span className="text-[0.625rem] text-muted-foreground">
-                            {s.desc}
-                          </span>
+                          <span className="text-[0.625rem] text-muted-foreground">{s.desc}</span>
                         </button>
                       ))}
                     </div>
@@ -309,7 +308,7 @@ export function BudgetEstimator() {
                           key={opt}
                           data-cursor="hover"
                           onClick={() => selectPlacement(opt)}
-                          className="rounded-xl border border-border bg-ink-soft/40 p-4 font-display text-xs tracking-wider text-foreground transition-all duration-500 hover:border-gold/50 hover:bg-gold/5"
+                          className="rounded-xl border border-border bg-ink-soft/40 p-4 font-display text-xs tracking-wider text-foreground transition-all duration-500 hover:border-gold/50 hover:bg-gold/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
                         >
                           {opt}
                         </button>
@@ -338,7 +337,7 @@ export function BudgetEstimator() {
                           key={st.title}
                           data-cursor="hover"
                           onClick={() => selectStyle(st.title)}
-                          className="rounded-xl border border-border bg-ink-soft/40 p-5 text-left transition-all duration-500 hover:border-gold/50 hover:bg-gold/5"
+                          className="rounded-xl border border-border bg-ink-soft/40 p-5 text-left transition-all duration-500 hover:border-gold/50 hover:bg-gold/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
                         >
                           <span className="mb-1 block font-display text-sm text-gold">
                             {st.title}
@@ -367,41 +366,51 @@ export function BudgetEstimator() {
                       Tus Datos de Contacto
                     </h3>
 
-                    <form
-                      onSubmit={handleSubmit}
-                      className="mx-auto max-w-md space-y-4"
-                    >
+                    <form onSubmit={handleSubmit} className="mx-auto max-w-md space-y-4">
                       {/* name */}
                       <div className="relative">
-                        <User className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gold/60" />
+                        <label htmlFor="name-input" className="sr-only">
+                          Nombre Completo
+                        </label>
+                        <User
+                          className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gold/60"
+                          aria-hidden="true"
+                        />
                         <input
+                          id="name-input"
                           required
                           type="text"
                           name="name"
                           placeholder="Nombre Completo"
                           value={formData.name}
                           onChange={handleText}
-                          className="w-full rounded-xl border border-border bg-ink-soft/40 py-3 pl-10 pr-4 text-xs text-foreground outline-none transition-colors duration-300 focus:border-gold"
+                          className="w-full rounded-xl border border-border bg-ink-soft/40 py-3 pl-10 pr-4 text-xs text-foreground outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-gold"
                         />
                       </div>
 
                       {/* notes */}
-                      <textarea
-                        name="notes"
-                        rows={4}
-                        placeholder="Describe brevemente tu idea de diseño, dimensiones o cualquier detalle relevante..."
-                        value={formData.notes}
-                        onChange={handleText}
-                        className="w-full rounded-xl border border-border bg-ink-soft/40 p-4 text-xs text-foreground outline-none transition-colors duration-300 focus:border-gold"
-                      />
+                      <div className="relative">
+                        <label htmlFor="notes-input" className="sr-only">
+                          Detalles del diseño
+                        </label>
+                        <textarea
+                          id="notes-input"
+                          name="notes"
+                          rows={4}
+                          placeholder="Describe brevemente tu idea de diseño, dimensiones o cualquier detalle relevante..."
+                          value={formData.notes}
+                          onChange={handleText}
+                          className="w-full rounded-xl border border-border bg-ink-soft/40 p-4 text-xs text-foreground outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-gold"
+                        />
+                      </div>
 
                       {/* submit */}
                       <button
                         type="submit"
                         data-cursor="hover"
-                        className="inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-gold px-6 py-4 font-display text-xs font-semibold uppercase tracking-widest text-ink transition-all duration-500 hover:bg-gold-soft"
+                        className="inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-gold px-6 py-4 font-display text-xs font-semibold uppercase tracking-widest text-ink transition-all duration-500 hover:bg-gold-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                       >
-                        Enviar Solicitud a WhatsApp
+                        ENVIAR A WHATSAPP
                         <Send className="h-4 w-4" />
                       </button>
                     </form>
@@ -425,10 +434,9 @@ export function BudgetEstimator() {
                       ¡SOLICITUD ENVIADA!
                     </h3>
                     <p className="text-sm leading-relaxed text-muted-foreground">
-                      Los datos del cotizador se han preparado y enviado. Si tu
-                      ventana de chat de WhatsApp no se abrió automáticamente,
-                      haz clic en el botón de abajo para finalizar la
-                      comunicación.
+                      Los datos del cotizador se han preparado y enviado. Si tu ventana de chat de
+                      WhatsApp no se abrió automáticamente, haz clic en el botón de abajo para
+                      finalizar la comunicación.
                     </p>
                     <button
                       data-cursor="hover"
@@ -442,7 +450,7 @@ export function BudgetEstimator() {
                           notes: "",
                         });
                       }}
-                      className="inline-flex items-center justify-center rounded-xl bg-gold px-6 py-3 font-display text-[0.625rem] font-semibold uppercase tracking-widest text-ink transition-colors duration-500 hover:bg-gold-soft"
+                      className="inline-flex items-center justify-center rounded-xl bg-gold px-6 py-3 font-display text-[0.625rem] font-semibold uppercase tracking-widest text-ink transition-colors duration-500 hover:bg-gold-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     >
                       Estimar otro proyecto
                     </button>
@@ -457,7 +465,7 @@ export function BudgetEstimator() {
                 <button
                   data-cursor="hover"
                   onClick={goBack}
-                  className="eyebrow inline-flex items-center gap-1 text-muted-foreground transition-colors duration-300 hover:text-foreground"
+                  className="eyebrow inline-flex items-center gap-1 text-muted-foreground transition-colors duration-300 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded px-2 py-1"
                 >
                   <ChevronLeft className="h-4 w-4" />
                   Atrás
@@ -468,7 +476,7 @@ export function BudgetEstimator() {
                     data-cursor="hover"
                     onClick={goNext}
                     disabled={step === 2 && !formData.placementOrSize}
-                    className="eyebrow inline-flex items-center gap-1 text-gold transition-colors duration-300 hover:text-gold-soft disabled:text-muted-foreground/40"
+                    className="eyebrow inline-flex items-center gap-1 text-gold transition-colors duration-300 hover:text-gold-soft disabled:text-muted-foreground/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded px-2 py-1"
                   >
                     Siguiente
                     <ChevronRight className="h-4 w-4" />

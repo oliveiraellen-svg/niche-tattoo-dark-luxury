@@ -13,6 +13,8 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
 import { FloatingWhatsApp } from "@/components/lunfardo/FloatingWhatsApp";
+import { TenantProvider } from "@/config/TenantContext";
+import { tenantConfig } from "@/config/tenant";
 
 function NotFoundComponent() {
   return (
@@ -79,42 +81,38 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=5" },
-      { title: "Lunfardo Tattoo — Estudio de Tatuajes en Ibi, Alicante" },
       {
-        name: "description",
-        content:
-          "Estudio privado y exclusivo de tatuajes y piercing en Ibi, Alicante. Especialistas en Fine Line, Realismo, Blackwork y Murales. Solo con cita previa.",
+        name: "keywords",
+        content: tenantConfig.keywords,
       },
-      { name: "keywords", content: "tatuajes, piercing, Ibi, Alicante, fine line, realismo, blackwork, cover up, murales, tattoo studio" },
-      { name: "author", content: "Lunfardo Tattoo" },
-      { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" },
-      
+      { name: "author", content: tenantConfig.author },
+      {
+        name: "robots",
+        content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      },
+
       // GEO Meta Tags (Local SEO)
-      { name: "geo.region", content: "ES-A" },
-      { name: "geo.placename", content: "Ibi" },
-      { name: "geo.position", content: "38.6253;-0.5752" },
-      { name: "ICBM", content: "38.6253, -0.5752" },
-      
-      // Open Graph (SEO / Social Sharing)
-      { property: "og:site_name", content: "Lunfardo Tattoo" },
-      { property: "og:title", content: "Lunfardo Tattoo — Estudio de Tatuajes en Ibi, Alicante" },
+      { name: "geo.region", content: tenantConfig.address.state }, // Simplification
+      { name: "geo.placename", content: tenantConfig.address.city },
       {
-        property: "og:description",
-        content: "Arte en la piel. Estudio privado y exclusivo de tatuajes y piercing desde 2013 en Ibi, Alicante.",
+        name: "geo.position",
+        content: `${tenantConfig.geo.latitude};${tenantConfig.geo.longitude}`,
       },
+      { name: "ICBM", content: `${tenantConfig.geo.latitude}, ${tenantConfig.geo.longitude}` },
+
+      // Open Graph (SEO / Social Sharing)
+      { property: "og:site_name", content: tenantConfig.name },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "/favicon.svg" },
-      { property: "og:image:alt", content: "Lunfardo Tattoo Logo" },
+      { property: "og:image", content: "/google-review.png" }, // To be configurable later
+      { property: "og:image:alt", content: `${tenantConfig.name} Logo` },
       { property: "og:locale", content: "es_ES" },
-      
+
       // Twitter
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Lunfardo Tattoo — Estudio de Tatuajes en Ibi, Alicante" },
-      { name: "twitter:description", content: "Arte en la piel. Estudio privado de tatuajes en Ibi, Alicante." },
-      { name: "twitter:image", content: "/favicon.svg" },
-      
+      { name: "twitter:image", content: "/google-review.png" },
+
       // Theming
-      { name: "theme-color", content: "#0c0c0c" },
+      { name: "theme-color", content: tenantConfig.theme.primaryColor },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -122,6 +120,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
+        // Ideal is to make this dynamic, but hardcoding for now as fonts need specific weights
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap",
       },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
@@ -135,42 +134,39 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "TattooParlor",
-    "name": "Lunfardo Tattoo",
-    "image": "/favicon.svg",
-    "description": "Estudio privado y exclusivo de tatuajes y piercing en Ibi, Alicante. Especialistas en Fine Line, Realismo, Blackwork y Murales.",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Ibi",
-      "addressRegion": "Alicante",
-      "addressCountry": "ES"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 38.6253,
-      "longitude": -0.5752
-    },
-    "telephone": "+34600000000",
-    "priceRange": "$$",
-    "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        "opens": "10:00",
-        "closes": "20:00"
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Tab") {
+        document.documentElement.classList.add("is-keyboard-nav");
       }
-    ]
-  };
+    };
+    const handleMouseDown = () => {
+      document.documentElement.classList.remove("is-keyboard-nav");
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("mousedown", handleMouseDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("mousedown", handleMouseDown);
+    };
+  }, []);
 
   return (
     <html lang="es">
       <head>
         <HeadContent />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+          :root {
+            --background: ${tenantConfig.theme.backgroundColor};
+            --gold: ${tenantConfig.theme.primaryColor};
+            --font-display: "${tenantConfig.theme.fontFamily}", "Playfair Display", serif;
+          }
+        `,
+          }}
         />
       </head>
       <body>
@@ -185,11 +181,13 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
-      <FloatingWhatsApp />
-      <Toaster />
-    </QueryClientProvider>
+    <TenantProvider>
+      <QueryClientProvider client={queryClient}>
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+        <FloatingWhatsApp />
+        <Toaster />
+      </QueryClientProvider>
+    </TenantProvider>
   );
 }

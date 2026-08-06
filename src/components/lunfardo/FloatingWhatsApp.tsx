@@ -1,10 +1,13 @@
 import { motion } from "motion/react";
+import { useTenant } from "@/config/TenantContext";
 
 export function FloatingWhatsApp() {
-  const WA_BASE = "https://api.whatsapp.com/message/OIDQ3CNT5KEZA1";
+  const tenant = useTenant();
+  const phone = tenant.contact.phone.replace(/[^0-9]/g, "");
+  const WA_BASE = `https://wa.me/${phone}`;
   const WA_PARAMS = "autoload=1&app_absent=0";
-  const WHATSAPP_MESSAGE = "¡Hola! Vengo desde el sitio web y me gustaría hacer una consulta general.";
-  
+  const WHATSAPP_MESSAGE = tenant.contact.whatsappMessage;
+
   const href = `${WA_BASE}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}&${WA_PARAMS}`;
 
   return (
@@ -12,18 +15,18 @@ export function FloatingWhatsApp() {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group fixed bottom-6 right-6 z-[100] flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-[0_4px_24px_rgba(37,211,102,0.4)] md:bottom-10 md:right-10 md:h-16 md:w-16"
+      className="group fixed bottom-6 right-6 z-[100] flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-[0_4px_24px_rgba(37,211,102,0.4)] md:bottom-10 md:right-10 md:h-16 md:w-16 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       initial={{ opacity: 0, y: 50, scale: 0.5 }}
-      animate={{ 
-        opacity: 1, 
-        y: 0, 
+      animate={{
+        opacity: 1,
+        y: 0,
         scale: 1,
-        transition: { duration: 1.0, delay: 2.4, ease: [0.22, 1, 0.36, 1] }
+        transition: { duration: 1.0, delay: 2.4, ease: [0.22, 1, 0.36, 1] },
       }}
-      whileHover={{ 
-        scale: 1.1, 
+      whileHover={{
+        scale: 1.1,
         boxShadow: "0 6px 32px rgba(37,211,102,0.6)",
-        transition: { duration: 0.3, ease: "easeOut" }
+        transition: { duration: 0.3, ease: "easeOut" },
       }}
       whileTap={{ scale: 0.95 }}
       aria-label="Contactar por WhatsApp"

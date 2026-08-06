@@ -29,22 +29,22 @@ const works: {
   h: number;
   span?: string;
 }[] = [
-    { src: m1, style: "Mural", cat: "Murales", w: 600, h: 800 },
-    { src: m2, style: "Mural", cat: "Murales", w: 600, h: 800 },
-    { src: m3, style: "Mural", cat: "Murales", w: 600, h: 450 },
-    { src: m4, style: "Mural", cat: "Murales", w: 600, h: 800 },
-    { src: m5, style: "Mural", cat: "Murales", w: 600, h: 800 },
-    { src: t1, style: "Tattoo", cat: "Tattoos", w: 768, h: 1024 },
-    { src: t2, style: "Tattoo", cat: "Tattoos", w: 768, h: 1024 },
-    { src: t3, style: "Tattoo", cat: "Tattoos", w: 768, h: 1024 },
-    { src: t4, style: "Tattoo", cat: "Tattoos", w: 768, h: 1024 },
-    { src: t5, style: "Tattoo", cat: "Tattoos", w: 585, h: 1024 },
-    { src: t6, style: "Búho", cat: "Tattoos", w: 768, h: 1024 },
-    { src: t7, style: "Retrato", cat: "Tattoos", w: 818, h: 1024 },
-    { src: t8, style: "Ilustración", cat: "Tattoos", w: 1024, h: 1024 },
-    { src: t9, style: "Ilustración", cat: "Tattoos", w: 1024, h: 1024 },
-    { src: t10, style: "Tattoo", cat: "Tattoos", w: 1024, h: 1024 },
-  ];
+  { src: m1, style: "Mural", cat: "Murales", w: 600, h: 800 },
+  { src: m2, style: "Mural", cat: "Murales", w: 600, h: 800 },
+  { src: m3, style: "Mural", cat: "Murales", w: 600, h: 450 },
+  { src: m4, style: "Mural", cat: "Murales", w: 600, h: 800 },
+  { src: m5, style: "Mural", cat: "Murales", w: 600, h: 800 },
+  { src: t1, style: "Tattoo", cat: "Tattoos", w: 768, h: 1024 },
+  { src: t2, style: "Tattoo", cat: "Tattoos", w: 768, h: 1024 },
+  { src: t3, style: "Tattoo", cat: "Tattoos", w: 768, h: 1024 },
+  { src: t4, style: "Tattoo", cat: "Tattoos", w: 768, h: 1024 },
+  { src: t5, style: "Tattoo", cat: "Tattoos", w: 585, h: 1024 },
+  { src: t6, style: "Búho", cat: "Tattoos", w: 768, h: 1024 },
+  { src: t7, style: "Retrato", cat: "Tattoos", w: 818, h: 1024 },
+  { src: t8, style: "Ilustración", cat: "Tattoos", w: 1024, h: 1024 },
+  { src: t9, style: "Ilustración", cat: "Tattoos", w: 1024, h: 1024 },
+  { src: t10, style: "Tattoo", cat: "Tattoos", w: 1024, h: 1024 },
+];
 
 export function Gallery() {
   const [filter, setFilter] = useState<"Todo" | Cat>("Todo");
@@ -70,10 +70,11 @@ export function Gallery() {
                 <button
                   key={f}
                   onClick={() => setFilter(f)}
-                  className={`rounded-full border px-6 py-2.5 text-[0.65rem] uppercase tracking-[0.22em] transition-all duration-500 ${filter === f
+                  className={`rounded-full border px-6 py-2.5 text-[0.65rem] uppercase tracking-[0.22em] transition-all duration-500 ${
+                    filter === f
                       ? "border-gold/70 bg-gold/10 text-gold"
                       : "border-border text-muted-foreground hover:border-gold/40 hover:text-foreground"
-                    }`}
+                  }`}
                 >
                   {f}
                 </button>

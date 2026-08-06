@@ -2,27 +2,26 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "motion/react";
 import artistImg from "@/assets/artist1.png";
 import { MaskReveal, Reveal, TextReveal } from "./Reveal";
+import { useTenant } from "@/config/TenantContext";
 
 export function About() {
+  const tenant = useTenant();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
-  
+
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
-    restDelta: 0.001
+    restDelta: 0.001,
   });
 
   const y = useTransform(smoothProgress, [0, 1], ["-8%", "12%"]);
 
   return (
-    <section
-      id="filosofia"
-      className="grain relative overflow-hidden px-6 py-28 md:px-12 md:py-40"
-    >
+    <section id="filosofia" className="grain relative overflow-hidden px-6 py-28 md:px-12 md:py-40">
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-5 lg:pt-16">
           <div ref={ref} className="relative">
@@ -30,7 +29,7 @@ export function About() {
               <motion.img
                 style={{ y }}
                 src={artistImg}
-                alt="El artista de Lunfardo trabajando en su estudio"
+                alt={`El artista de ${tenant.name} trabajando en su estudio`}
                 width={1024}
                 height={1408}
                 loading="lazy"
@@ -38,10 +37,7 @@ export function About() {
               />
               <div className="pointer-events-none absolute inset-0 bg-black/30" />
             </MaskReveal>
-            <Reveal
-              delay={0.4}
-              className="glass absolute -right-4 bottom-8 px-6 py-5 md:-right-10"
-            >
+            <Reveal delay={0.4} className="glass absolute -right-4 bottom-8 px-6 py-5 md:-right-10">
               <p className="font-display text-4xl text-gold">+10</p>
               <p className="eyebrow mt-1">Años de oficio</p>
             </Reveal>
@@ -61,16 +57,17 @@ export function About() {
 
           <Reveal delay={0.15}>
             <p className="max-w-xl text-base leading-relaxed text-muted-foreground">
-              Somos un estudio de tatuajes y piercing privado y exclusivo, operando
-              únicamente con cita previa. Esto garantiza una experiencia personalizada,
-              cómoda y enfocada al 100% en tu proyecto.
+              Somos un estudio de tatuajes y piercing privado y exclusivo, operando únicamente con
+              cita previa. Esto garantiza una experiencia personalizada, cómoda y enfocada al 100%
+              en tu proyecto.
             </p>
           </Reveal>
 
           <Reveal delay={0.25}>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground">
-              Con más de una década de experiencia en el sector, ofrecemos
-              profesionalismo y calidad en cada servicio.
+              Con más de una década de experiencia en el sector del tatuaje, ofrecemos
+              profesionalismo y calidad artística en nuestro estudio en {tenant.address.city},{" "}
+              {tenant.address.state}.
             </p>
           </Reveal>
 

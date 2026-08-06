@@ -7,31 +7,31 @@ const services = [
   {
     n: "01",
     title: "Fine Line y Tatuaje Pequeño",
-    body: "Para detalles sutiles y delicados.",
+    body: "Tatuaje estilo fine line y trazos delicados, ideal para diseños minimalistas. Realizado en nuestro estudio privado en Ibi (Alicante) con la máxima precisión por Lunfardo Tattoo.",
     tag: "Tatuajes",
   },
   {
     n: "02",
     title: "Tatuaje Realista y Retratos",
-    body: "Capturando imágenes con precisión.",
+    body: "Capturando imágenes con precisión milimétrica en nuestro estudio privado en Ibi, Alicante. Retratos y tatuaje realista hiperdetallado, diseñados a medida por el artista Alberto.",
     tag: "Tatuajes",
   },
   {
     n: "03",
     title: "Blackwork y Tradicional",
-    body: "Negro sólido, líneas rotundas y códigos clásicos del tatuaje.",
+    body: "Negro sólido, líneas rotundas y códigos clásicos del tatuaje tradicional. Gran impacto visual y durabilidad en la piel. Trabajos de gran formato disponibles en nuestro estudio de Ibi.",
     tag: "Tatuajes",
   },
   {
     n: "04",
     title: "Cover Up",
-    body: "Expertos en la transformación y renovación de antiguos tatuajes.",
+    body: "Expertos en la transformación, arreglo y renovación de antiguos tatuajes en la provincia de Alicante. Ocultamos y mejoramos tatuajes previos (cover up) con diseños adaptados exclusivamente por Lunfardo Tattoo.",
     tag: "Tatuajes",
   },
   {
     n: "05",
     title: "Murales",
-    body: "Llevamos el arte más allá de la piel con la realización de murales artísticos de cualquier tamaño.",
+    body: "Llevamos el arte de Lunfardo Tattoo más allá de la piel con la realización de murales artísticos y pintura mural de gran formato, decorando espacios en Ibi, Alicante y alrededores con estilo autoral.",
     tag: "Murales",
   },
 ];
@@ -40,10 +40,7 @@ export function Services() {
   const [open, setOpen] = useState(0);
 
   return (
-    <section
-      id="especialidades"
-      className="grain depth-glow relative px-6 py-28 md:px-12 md:py-40"
-    >
+    <section id="especialidades" className="grain depth-glow relative px-6 py-28 md:px-12 md:py-40">
       <div className="mx-auto max-w-[1400px]">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
           <Reveal className="lg:col-span-4">
@@ -65,9 +62,7 @@ export function Services() {
                     className="group cursor-pointer border-t border-border py-7 last:border-b"
                   >
                     <div className="flex items-baseline gap-6">
-                      <span className="text-[0.65rem] tracking-[0.2em] text-gold/70">
-                        {s.n}
-                      </span>
+                      <span className="text-[0.65rem] tracking-[0.2em] text-gold/70">{s.n}</span>
                       <h3
                         className={`flex-1 font-display text-2xl transition-colors duration-500 sm:text-3xl ${
                           isOpen ? "text-gold" : "text-foreground"

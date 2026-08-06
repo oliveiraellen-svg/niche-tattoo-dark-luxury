@@ -1,19 +1,34 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { lazy, Suspense } from "react";
 import { motion, useScroll, useSpring } from "motion/react";
 import { Nav } from "@/components/lunfardo/Nav";
 import { Hero } from "@/components/lunfardo/Hero";
 import { About } from "@/components/lunfardo/About";
-import { Services } from "@/components/lunfardo/Services";
-import { Gallery } from "@/components/lunfardo/Gallery";
-import { Contact } from "@/components/lunfardo/Contact";
-import { BudgetEstimator } from "@/components/lunfardo/BudgetEstimator";
-import { Reviews } from "@/components/lunfardo/Reviews";
-import { Footer } from "@/components/lunfardo/Footer";
 import { CustomCursor } from "@/components/lunfardo/CustomCursor";
 
-const TITLE = "Lunfardo Tattoo — Estudio privado de tatuajes y piercing en Ibi";
-const DESCRIPTION =
-  "Estudio privado y exclusivo de tatuajes y piercing en Ibi, Alicante. Fine line, realismo, blackwork, cover up y murales. Más de una década de experiencia, solo con cita previa.";
+const Services = lazy(() =>
+  import("@/components/lunfardo/Services").then((m) => ({ default: m.Services })),
+);
+const Gallery = lazy(() =>
+  import("@/components/lunfardo/Gallery").then((m) => ({ default: m.Gallery })),
+);
+const Contact = lazy(() =>
+  import("@/components/lunfardo/Contact").then((m) => ({ default: m.Contact })),
+);
+const BudgetEstimator = lazy(() =>
+  import("@/components/lunfardo/BudgetEstimator").then((m) => ({ default: m.BudgetEstimator })),
+);
+const FAQ = lazy(() => import("@/components/lunfardo/FAQ").then((m) => ({ default: m.FAQ })));
+const Reviews = lazy(() =>
+  import("@/components/lunfardo/Reviews").then((m) => ({ default: m.Reviews })),
+);
+const Footer = lazy(() =>
+  import("@/components/lunfardo/Footer").then((m) => ({ default: m.Footer })),
+);
+import { tenantConfig } from "@/config/tenant";
+
+const TITLE = `${tenantConfig.name} — ${tenantConfig.description.split(".")[0]}`;
+const DESCRIPTION = tenantConfig.description;
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -22,8 +37,57 @@ export const Route = createFileRoute("/")({
       { name: "description", content: DESCRIPTION },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: tenantConfig.url },
+      { name: "twitter:url", content: tenantConfig.url },
+    ],
+    links: [{ rel: "canonical", href: tenantConfig.url }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": tenantConfig.business.type,
+          name: tenantConfig.name,
+          image: `${tenantConfig.url}/google-review.png`,
+          "@id": tenantConfig.url,
+          url: tenantConfig.url,
+          telephone: tenantConfig.contact.phone,
+          priceRange: tenantConfig.business.priceRange,
+          founder: {
+            "@type": "Person",
+            name: tenantConfig.business.founderName,
+          },
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: tenantConfig.address.street,
+            addressLocality: tenantConfig.address.city,
+            addressRegion: tenantConfig.address.state,
+            postalCode: tenantConfig.address.zip,
+            addressCountry: tenantConfig.address.countryCode,
+          },
+          geo: {
+            "@type": "GeoCoordinates",
+            latitude: tenantConfig.geo.latitude,
+            longitude: tenantConfig.geo.longitude,
+          },
+          openingHoursSpecification: tenantConfig.business.openingHours,
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: tenantConfig.faqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: faq.answer,
+            },
+          })),
+        }),
+      },
     ],
   }),
   component: Index,
@@ -45,16 +109,21 @@ function Index() {
         className="fixed inset-x-0 top-0 z-[80] h-px origin-left bg-gold/70"
       />
       <Nav />
-      <main>
+      <main id="main-content">
         <Hero />
         <About />
-        <Services />
-        <Gallery />
-        <BudgetEstimator />
-        <Reviews />
-        <Contact />
+        <Suspense fallback={<div className="h-[20vh] w-full" />}>
+          <Services />
+          <Gallery />
+          <BudgetEstimator />
+          <Reviews />
+          <FAQ />
+          <Contact />
+        </Suspense>
       </main>
-      <Footer />
+      <Suspense fallback={<div className="h-[10vh] w-full" />}>
+        <Footer />
+      </Suspense>
     </div>
   );
 }

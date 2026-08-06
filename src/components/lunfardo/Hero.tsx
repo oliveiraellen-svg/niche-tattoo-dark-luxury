@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { ArrowDown } from "lucide-react";
 import heroImg from "@/assets/hero.jpg";
 import { MagneticButton } from "./MagneticButton";
+import { useTenant } from "@/config/TenantContext";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -17,7 +18,8 @@ export function Hero() {
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
   const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
-  const letters = "LUNFARDO".split("");
+  const tenant = useTenant();
+  const letters = tenant.name.split(" ")[0].toUpperCase().split("");
 
   return (
     <section
@@ -31,6 +33,7 @@ export function Hero() {
           alt="Artista de Lunfardo Tattoo tatuando en su estudio privado"
           width={1920}
           height={1280}
+          fetchPriority="high"
           className="h-full w-full object-cover opacity-60"
         />
       </motion.div>
@@ -47,7 +50,7 @@ export function Hero() {
           transition={{ duration: 1.4, delay: 0.4, ease: EASE }}
           className="eyebrow text-[0.6rem] md:text-[0.7rem]"
         >
-          Estudio Privado de Tatuajes y Piercing
+          {tenant.description.split(".")[0]}
         </motion.p>
 
         <h1 className="mt-6 flex overflow-hidden md:mt-8">
@@ -77,7 +80,7 @@ export function Hero() {
           transition={{ duration: 1.4, delay: 1.9, ease: EASE }}
           className="mt-8 font-display text-xl italic text-muted-foreground md:text-2xl"
         >
-          Arte en la piel. Desde 2013.
+          {tenant.name}
         </motion.p>
 
         <motion.div
@@ -86,7 +89,7 @@ export function Hero() {
           transition={{ duration: 1.4, delay: 2.2, ease: EASE }}
           className="mt-12"
         >
-          <MagneticButton href="#contacto">Solicitar Cita</MagneticButton>
+          <MagneticButton href="#cotizador">Solicitar Cita</MagneticButton>
         </motion.div>
       </motion.div>
 

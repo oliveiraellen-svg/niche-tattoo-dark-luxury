@@ -37,10 +37,10 @@ export function MagneticButton({
   };
 
   const base =
-    "group relative inline-flex items-center justify-center overflow-hidden rounded-full px-9 py-4 text-[0.7rem] font-medium uppercase tracking-[0.28em] transition-colors duration-500";
+    "group relative inline-flex items-center justify-center overflow-hidden rounded-full px-9 py-4 text-[0.7rem] font-medium uppercase tracking-[0.28em] transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background";
   const styles =
     variant === "solid"
-      ? "bg-gold text-primary-foreground shadow-[var(--shadow-glow)]"
+      ? "bg-gold text-primary-foreground shadow-[var(--shadow-glow)] hover:bg-gold-soft"
       : "border border-border text-foreground hover:border-gold/60";
 
   const inner = (

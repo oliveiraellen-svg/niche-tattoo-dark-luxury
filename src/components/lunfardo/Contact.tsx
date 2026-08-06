@@ -3,9 +3,12 @@ import { MagneticButton } from "./MagneticButton";
 import { MaskReveal, Reveal, TextReveal } from "./Reveal";
 import { useRef } from "react";
 import { useInView } from "motion/react";
+import { useTenant } from "@/config/TenantContext";
 
 export function Contact() {
-  const WA_LINK = "https://api.whatsapp.com/message/OIDQ3CNT5KEZA1?text=%C2%A1Hola!%20Me%20gustar%C3%ADa%20hacerles%20una%20consulta.&autoload=1&app_absent=0";
+  const tenant = useTenant();
+  const phone = tenant.contact.phone.replace(/[^0-9]/g, "");
+  const WA_LINK = `https://wa.me/${phone}?text=${encodeURIComponent(tenant.contact.whatsappMessage)}`;
   const mapRef = useRef<HTMLDivElement>(null);
   const isMapInView = useInView(mapRef, { once: true, margin: "200px" });
 
@@ -18,18 +21,17 @@ export function Contact() {
             <p className="eyebrow">Solicitar cita</p>
           </Reveal>
           <h2 className="mt-6 font-display text-4xl leading-[1.05] text-foreground sm:text-5xl lg:text-[3.6rem]">
-            <TextReveal text="Cuéntanos tu proyecto" stagger={0.07} />
+            <TextReveal text="Cuéntanos tu proyecto de tatuaje" stagger={0.07} />
           </h2>
 
           <Reveal delay={0.15}>
             <p className="mt-8 max-w-lg text-lg leading-relaxed text-muted-foreground">
-              Preferimos el trato directo y personalizado. Escríbenos por WhatsApp para resolver dudas rápidas, enviarnos tus ideas o coordinar una cita en nuestro estudio privado.
+              Preferimos el trato directo y personalizado. Escríbenos por WhatsApp para resolver
+              dudas rápidas, enviarnos tus ideas o coordinar una cita en nuestro estudio privado.
             </p>
             <div className="mt-12">
               <a href={WA_LINK} target="_blank" rel="noopener noreferrer">
-                <MagneticButton>
-                  Escríbenos por WhatsApp
-                </MagneticButton>
+                <MagneticButton>Escríbenos por WhatsApp</MagneticButton>
               </a>
             </div>
           </Reveal>
@@ -41,14 +43,14 @@ export function Contact() {
               {
                 icon: Phone,
                 label: "WhatsApp",
-                value: "+34 603 34 28 74",
+                value: tenant.contact.phone,
                 href: WA_LINK,
               },
               {
                 icon: MapPin,
                 label: "Estudio",
-                value: "Carrer Paca Guillem, 10\n03440 Ibi, Alicante, Spain",
-                href: "https://maps.google.com/?q=Carrer+Paca+Guillem+10+03440+Ibi+Alicante",
+                value: `${tenant.address.street}\n${tenant.address.zip} ${tenant.address.city}, ${tenant.address.state}, ${tenant.address.country}`,
+                href: `https://maps.google.com/?q=${encodeURIComponent(`${tenant.address.street} ${tenant.address.zip} ${tenant.address.city} ${tenant.address.state}`)}`,
               },
               {
                 icon: Clock,
@@ -66,7 +68,8 @@ export function Contact() {
                         href={item.href}
                         target={item.href.startsWith("http") ? "_blank" : undefined}
                         rel="noreferrer"
-                        className="mt-3 block whitespace-pre-line font-display text-2xl text-foreground transition-colors duration-500 hover:text-gold"
+                        aria-label={`Enlace a ${item.label} de ${tenant.name}`}
+                        className="mt-3 inline-block whitespace-pre-line font-display text-2xl text-foreground transition-colors duration-500 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded px-2 -ml-2"
                       >
                         {item.value}
                       </a>
@@ -82,11 +85,14 @@ export function Contact() {
           </div>
 
           <MaskReveal from="bottom" delay={0.2} className="mt-12">
-            <div ref={mapRef} className="relative h-[320px] overflow-hidden border border-border bg-ink-soft/30">
+            <div
+              ref={mapRef}
+              className="relative h-[320px] overflow-hidden border border-border bg-ink-soft/30"
+            >
               {isMapInView && (
                 <iframe
-                  title="Ubicación de Lunfardo Tattoo en Ibi, Alicante"
-                  src="https://www.google.com/maps?q=Carrer%20Paca%20Guillem%2010%2C%2003440%20Ibi%2C%20Alicante&output=embed"
+                  title={`Ubicación de ${tenant.name} en ${tenant.address.city}, ${tenant.address.state}`}
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(`${tenant.address.street}, ${tenant.address.zip} ${tenant.address.city}, ${tenant.address.state}`)}&output=embed`}
                   className="h-full w-full opacity-70 grayscale contrast-125 invert-[0.92] hue-rotate-180"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
