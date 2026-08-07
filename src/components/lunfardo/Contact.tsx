@@ -80,20 +80,18 @@ export function Contact() {
             ))}
           </div>
 
-          <Reveal delay={0.2} className="mt-12">
-            {/* The outer div handles border radius and overflow */}
-            <div className="relative h-[320px] overflow-hidden rounded-xl border border-border bg-ink-soft/30">
-              {/* Removed CSS filters (invert, hue-rotate) because iOS Safari refuses to render them over iframes */}
-              <div className="h-full w-full">
-                <iframe
-                  title={`Ubicación de ${tenant.name} en ${tenant.address.city}, ${tenant.address.state}`}
-                  src={`https://maps.google.com/maps?width=100%25&height=600&hl=es&q=${encodeURIComponent(`${tenant.address.street}, ${tenant.address.zip} ${tenant.address.city}, ${tenant.address.state}`)}&t=&z=15&ie=UTF8&iwloc=B&output=embed`}
-                  className="h-full w-full border-0 bg-transparent"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
+          {/* The outer div handles border radius and overflow */}
+          <div className="relative mt-12 h-[320px] overflow-hidden rounded-xl border border-border bg-ink-soft/30">
+            {/* Removed CSS filters (invert, hue-rotate) because iOS Safari refuses to render them over iframes */}
+            <div className="h-full w-full">
+              <iframe
+                title={`Ubicación de ${tenant.name} en ${tenant.address.city}, ${tenant.address.state}`}
+                src={`https://maps.google.com/maps?width=100%25&height=600&hl=es&q=${encodeURIComponent(`${tenant.address.street}, ${tenant.address.zip} ${tenant.address.city}, ${tenant.address.state}`)}&t=&z=15&ie=UTF8&iwloc=B&output=embed`}
+                className="h-full w-full border-0 bg-transparent"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
             </div>
-          </Reveal>
+          </div>
         </div>
       </div>
     </section>
