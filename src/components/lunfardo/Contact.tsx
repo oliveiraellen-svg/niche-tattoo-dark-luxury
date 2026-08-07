@@ -86,7 +86,7 @@ export function Contact() {
             <div className="h-full w-full">
               <iframe
                 title={`Ubicación de ${tenant.name} en ${tenant.address.city}, ${tenant.address.state}`}
-                src={`https://maps.google.com/maps?width=100%25&height=600&hl=es&q=${encodeURIComponent(`${tenant.address.street}, ${tenant.address.zip} ${tenant.address.city}, ${tenant.address.state}`)}&t=&z=15&ie=UTF8&iwloc=B&output=embed`}
+                src={`https://www.google.com/maps?q=${encodeURIComponent(`${tenant.address.street}, ${tenant.address.zip} ${tenant.address.city}, ${tenant.address.state}`)}&output=embed`}
                 className="h-full w-full border-0 bg-transparent"
                 referrerPolicy="no-referrer-when-downgrade"
               />
