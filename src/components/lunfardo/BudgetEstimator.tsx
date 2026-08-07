@@ -174,12 +174,12 @@ export function BudgetEstimator() {
           : "Lienzo Fino";
 
     const msg = encodeURIComponent(
-      `¡Hola ${tenant.shortName}! Acabo de estimar mi presupuesto en la web:\n\n` +
-        `▪ *Servicio:* ${serviceLabel}\n` +
-        `▪ *Medidas/Colocación:* ${formData.placementOrSize}\n` +
-        `▪ *Estilo:* ${formData.style}\n` +
-        `▪ *Nombre:* ${formData.name}\n` +
-        `▪ *Detalles:* ${formData.notes || "Sin notas adicionales."}`,
+      `Hola ${tenant.shortName}! Acabo de estimar mi presupuesto en la web:\n\n` +
+        `Servicio: ${serviceLabel}\n` +
+        `Medidas/Colocación: ${formData.placementOrSize}\n` +
+        `Estilo: ${formData.style}\n` +
+        `Nombre: ${formData.name}\n` +
+        `Detalles: ${formData.notes || "Sin notas adicionales."}`,
     );
 
     window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");

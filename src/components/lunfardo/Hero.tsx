@@ -80,7 +80,7 @@ export function Hero() {
           transition={{ duration: 1.4, delay: 1.9, ease: EASE }}
           className="mt-8 font-display text-xl italic text-muted-foreground md:text-2xl"
         >
-          {tenant.name}
+          Arte en la piel. Desde 2013.
         </motion.p>
 
         <motion.div
