@@ -80,18 +80,35 @@ export function Contact() {
             ))}
           </div>
 
-          {/* The outer div handles border radius and overflow */}
-          <div className="relative mt-12 h-[320px] overflow-hidden rounded-xl border border-border bg-ink-soft/30">
-            {/* Removed CSS filters (invert, hue-rotate) because iOS Safari refuses to render them over iframes */}
-            <div className="h-full w-full">
-              <iframe
-                title={`Ubicación de ${tenant.name} en ${tenant.address.city}, ${tenant.address.state}`}
-                src={`https://www.google.com/maps?q=${encodeURIComponent(`${tenant.address.street}, ${tenant.address.zip} ${tenant.address.city}, ${tenant.address.state}`)}&output=embed`}
-                className="h-full w-full border-0 bg-transparent"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+          {/* Replaced broken Google Maps iframe with a highly aesthetic native link CTA */}
+          <a 
+            href={`https://maps.google.com/?q=${encodeURIComponent(`${tenant.address.street} ${tenant.address.zip} ${tenant.address.city} ${tenant.address.state}`)}`}
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="group relative mt-12 flex h-[280px] w-full flex-col items-center justify-center overflow-hidden rounded-xl border border-border bg-ink-soft/30 transition-all duration-500 hover:border-gold/50 hover:bg-ink-soft/50"
+          >
+            {/* Subtle background gradient to simulate depth */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gold/5 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            
+            <div className="relative z-10 flex flex-col items-center text-center space-y-5 px-6">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gold/5 text-gold transition-transform duration-500 group-hover:scale-110 group-hover:bg-gold/10">
+                <MapPin className="h-7 w-7" strokeWidth={1.5} />
+              </div>
+              <div>
+                <h3 className="font-display text-2xl text-foreground transition-colors duration-300 group-hover:text-gold">
+                  Abrir en Google Maps
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {tenant.address.street}
+                  <br />
+                  {tenant.address.city}, {tenant.address.state}
+                </p>
+              </div>
+              <div className="text-xs font-semibold uppercase tracking-widest text-gold/50 transition-colors duration-300 group-hover:text-gold">
+                Ver ubicación &rarr;
+              </div>
             </div>
-          </div>
+          </a>
         </div>
       </div>
     </section>
