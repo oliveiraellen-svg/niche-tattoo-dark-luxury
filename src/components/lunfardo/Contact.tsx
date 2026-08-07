@@ -81,11 +81,11 @@ export function Contact() {
           </div>
 
           <Reveal delay={0.2} className="mt-12">
-            <div className="relative h-[320px] overflow-hidden border border-border bg-ink-soft/30 rounded-xl">
+            <div className="relative h-[320px] overflow-hidden border border-border bg-ink-soft/30 rounded-xl opacity-80 grayscale contrast-125 invert-[0.92] hue-rotate-180 transform-gpu">
               <iframe
                 title={`Ubicación de ${tenant.name} en ${tenant.address.city}, ${tenant.address.state}`}
                 src={`https://www.google.com/maps?q=${encodeURIComponent(`${tenant.address.street}, ${tenant.address.zip} ${tenant.address.city}, ${tenant.address.state}`)}&output=embed`}
-                className="h-full w-full opacity-70 grayscale contrast-125 invert-[0.92] hue-rotate-180"
+                className="h-full w-full border-0 bg-transparent"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               />
