@@ -62,7 +62,7 @@ export const tenantConfig: TenantConfig = {
     whatsappMessage: "Hola, me gustaría agendar una cita",
   },
   address: {
-    street: "Carrer Paca Guillem, 10",
+    street: "C/Paca Guillem N14",
     city: "Ibi",
     state: "Alicante",
     zip: "03440",
