@@ -182,7 +182,12 @@ export function BudgetEstimator() {
         `Detalles: ${formData.notes || "Sin notas adicionales."}`,
     );
 
-    window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
+    // Nota técnica: Los enlaces cortos (api.whatsapp.com/message/...) no aceptan el parámetro
+    // 'text=' dinámicamente. Por lo tanto, para que los datos del formulario lleguen al chat,
+    // debemos usar forzosamente la API directa de wa.me con el número de teléfono.
+    const targetUrl = `https://wa.me/${phone}?text=${msg}`;
+
+    window.open(targetUrl, "_blank");
     setDirection(1);
     setStep(5);
   };

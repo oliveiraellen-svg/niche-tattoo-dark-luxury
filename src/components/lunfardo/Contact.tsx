@@ -6,7 +6,7 @@ import { useTenant } from "@/config/TenantContext";
 export function Contact() {
   const tenant = useTenant();
   const phone = tenant.contact.phone.replace(/[^0-9]/g, "");
-  const WA_LINK = `https://wa.me/${phone}?text=${encodeURIComponent(tenant.contact.whatsappMessage)}`;
+  const WA_LINK = tenant.contact.whatsappUrl || `https://wa.me/${phone}?text=${encodeURIComponent(tenant.contact.whatsappMessage)}`;
 
   return (
     <section id="contacto" className="grain relative px-6 py-28 md:px-12 md:py-40">

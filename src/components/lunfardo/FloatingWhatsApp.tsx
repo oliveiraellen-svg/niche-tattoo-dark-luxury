@@ -8,7 +8,7 @@ export function FloatingWhatsApp() {
   const WA_PARAMS = "autoload=1&app_absent=0";
   const WHATSAPP_MESSAGE = tenant.contact.whatsappMessage;
 
-  const href = `${WA_BASE}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}&${WA_PARAMS}`;
+  const href = tenant.contact.whatsappUrl || `${WA_BASE}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}&${WA_PARAMS}`;
 
   return (
     <motion.a

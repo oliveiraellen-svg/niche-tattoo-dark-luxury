@@ -8,6 +8,7 @@ export interface TenantConfig {
   contact: {
     phone: string;
     whatsappMessage: string;
+    whatsappUrl?: string;
     email?: string;
   };
   address: {
@@ -60,6 +61,7 @@ export const tenantConfig: TenantConfig = {
   contact: {
     phone: "+34603342874",
     whatsappMessage: "Hola, me gustaría agendar una cita",
+    whatsappUrl: "https://api.whatsapp.com/message/OIDQ3CNT5KEZA1?autoload=1&app_absent=0&utm_source=ig",
   },
   address: {
     street: "C/Paca Guillem N14",

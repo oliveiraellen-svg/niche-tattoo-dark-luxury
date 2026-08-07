@@ -16,7 +16,7 @@ export function Nav() {
   const [solid, setSolid] = useState(false);
   const { scrollY } = useScroll();
 
-  const waLink = `https://wa.me/${tenant.contact.phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(tenant.contact.whatsappMessage)}`;
+  const waLink = tenant.contact.whatsappUrl || `https://wa.me/${tenant.contact.phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(tenant.contact.whatsappMessage)}`;
 
   useMotionValueEvent(scrollY, "change", (v) => setSolid(v > 80));
 
