@@ -2,22 +2,38 @@ import { useState } from "react";
 import { Reveal, TextReveal } from "./Reveal";
 import { HorizontalScrollCarousel } from "@/components/ui/horizontal-scroll-carousel";
 
-import m1 from "@/assets/IMG_7709-1-600x800.webp";
-import m2 from "@/assets/calavera-600x800.webp";
-import m3 from "@/assets/full-mural-600x450.webp";
-import m4 from "@/assets/persina-600x800.webp";
-import m5 from "@/assets/simio-mural-1-600x800.webp";
+import m1 from "@/assets/murales.webp";
+import m2 from "@/assets/murales_1.webp";
+import m3 from "@/assets/murales_2.jpg";
+import m4 from "@/assets/murales_3.webp";
+import m5 from "@/assets/murales_4.webp";
 
-import t1 from "@/assets/Imagen-de-WhatsApp-2025-03-21-a-las-09.48.35_603c811a-768x1024.webp";
-import t2 from "@/assets/Imagen-de-WhatsApp-2025-03-21-a-las-09.50.12_174f526d-768x1024.webp";
-import t3 from "@/assets/Imagen-de-WhatsApp-2025-03-21-a-las-09.51.19_c058714f-768x1024.webp";
-import t4 from "@/assets/Imagen-de-WhatsApp-2025-03-21-a-las-09.52.13_7e92aa2a-768x1024.webp";
-import t5 from "@/assets/Imagen-de-WhatsApp-2025-03-21-a-las-09.52.32_27d53f8f-585x1024.webp";
-import t6 from "@/assets/buho-tattoo-1-768x1024.webp";
-import t7 from "@/assets/face-tattoo-818x1024.webp";
-import t8 from "@/assets/ilustracion_sin_titulo.webp";
-import t9 from "@/assets/ilustracion_sin_titulo2.webp";
-import t10 from "@/assets/img_8462.webp";
+import t1 from "@/assets/insta_tattoo/imgi_10_659146922_953912950912966_395057263122331490_n.webp";
+import t2 from "@/assets/insta_tattoo/imgi_11_656572593_2220324308498205_6575870684701233463_n.webp";
+import t3 from "@/assets/insta_tattoo/imgi_12_658208501_698807273290771_58253169656219306_n.webp";
+import t4 from "@/assets/insta_tattoo/imgi_13_617832073_1573096957065531_1467970652470933621_n.webp";
+import t5 from "@/assets/insta_tattoo/imgi_14_544748958_18089728135855703_8829153756792540317_n.webp";
+import t6 from "@/assets/insta_tattoo/imgi_16_503161180_587891551014765_7587142797545331432_n.webp";
+import t7 from "@/assets/insta_tattoo/imgi_20_484011934_18073021333855703_7042796900135634738_n.jpg";
+import t8 from "@/assets/insta_tattoo/imgi_23_543051670_18089641021855703_3298709690641873704_n.webp";
+import t9 from "@/assets/insta_tattoo/imgi_25_472438158_18067169374855703_3592548256009544535_n.jpg";
+import t10 from "@/assets/insta_tattoo/imgi_28_503177808_1304385261701684_6398247833210152760_n.webp";
+import t11 from "@/assets/insta_tattoo/imgi_34_483382131_18073021357855703_3277464284529378544_n.webp";
+import t12 from "@/assets/insta_tattoo/imgi_9_670741173_18112725307855703_1524149849503845705_n.webp";
+import t13 from "@/assets/insta_tattoo/imgi_19_624767835_873302955343845_2394220921283452005_n.webp";
+import t14 from "@/assets/insta_tattoo/imgi_21_502740012_2088303201678483_9084908500849859382_n.webp";
+import t15 from "@/assets/insta_tattoo/imgi_25_497836744_1385681305820226_5989041354883606039_n.webp";
+import t16 from "@/assets/insta_tattoo/imgi_30_624729857_18079760087351922_6121978448710201177_n.webp";
+import t17 from "@/assets/insta_tattoo/imgi_36_625265943_18303884125260355_8760203160500000665_n.webp";
+import t18 from "@/assets/insta_tattoo/imgi_37_621424247_18100807693885461_1187866611766364163_n.webp";
+import t19 from "@/assets/insta_tattoo/imgi_38_619495036_18069487976438029_4980860178366068211_n.webp";
+import t20 from "@/assets/insta_tattoo/imgi_40_624910264_18158142865424446_3260082954446161490_n.webp";
+import t21 from "@/assets/insta_tattoo/imgi_41_620804447_18052917755429161_7614512819224371219_n.webp";
+import t22 from "@/assets/insta_tattoo/imgi_42_620460656_18090486058831989_635458968883451903_n.jpg";
+import t23 from "@/assets/insta_tattoo/imgi_43_631888253_18446484931110988_2748115421989862907_n.webp";
+import t24 from "@/assets/insta_tattoo/imgi_47_660916577_18582596074062343_641368401206057101_n.webp";
+import t25 from "@/assets/insta_tattoo/imgi_49_621176844_18109275073642588_3924405500905151153_n.jpg";
+import t26 from "@/assets/insta_tattoo/imgi_51_530690758_1046868040860557_4985088510283657064_n.webp";
 
 type Cat = "Tattoos" | "Murales";
 
@@ -34,16 +50,32 @@ const works: {
   { src: m3, style: "Mural", cat: "Murales", w: 600, h: 450 },
   { src: m4, style: "Mural", cat: "Murales", w: 600, h: 800 },
   { src: m5, style: "Mural", cat: "Murales", w: 600, h: 800 },
-  { src: t1, style: "Tattoo", cat: "Tattoos", w: 768, h: 1024 },
-  { src: t2, style: "Tattoo", cat: "Tattoos", w: 768, h: 1024 },
-  { src: t3, style: "Tattoo", cat: "Tattoos", w: 768, h: 1024 },
-  { src: t4, style: "Tattoo", cat: "Tattoos", w: 768, h: 1024 },
-  { src: t5, style: "Tattoo", cat: "Tattoos", w: 585, h: 1024 },
-  { src: t6, style: "Búho", cat: "Tattoos", w: 768, h: 1024 },
-  { src: t7, style: "Retrato", cat: "Tattoos", w: 818, h: 1024 },
-  { src: t8, style: "Ilustración", cat: "Tattoos", w: 1024, h: 1024 },
-  { src: t9, style: "Ilustración", cat: "Tattoos", w: 1024, h: 1024 },
-  { src: t10, style: "Tattoo", cat: "Tattoos", w: 1024, h: 1024 },
+  { src: t1, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t2, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t3, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t4, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t5, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t6, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t7, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t8, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t9, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t10, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t11, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t12, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t13, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t14, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t15, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t16, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t17, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t18, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t19, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t20, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t21, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t22, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t23, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t24, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t25, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
+  { src: t26, style: "Tattoo", cat: "Tattoos", w: 800, h: 1000 },
 ];
 
 export function Gallery() {
