@@ -1,4 +1,4 @@
-import { motion, useTransform, useScroll, useSpring } from "motion/react";
+import { motion, useTransform, useScroll, useSpring, useInView } from "motion/react";
 import { useRef } from "react";
 
 interface CarouselProps {
@@ -41,16 +41,22 @@ export const HorizontalScrollCarousel = ({ items }: CarouselProps) => {
 };
 
 const Card = ({ card }: { card: CarouselProps["items"][0] }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "300px" });
+
   return (
-    <div className="group relative h-[450px] w-[320px] shrink-0 overflow-hidden md:h-[600px] md:w-[450px] border border-border">
-      <img
-        src={card.src}
-        alt={card.style}
-        loading="lazy"
-        width={card.w}
-        height={card.h}
-        className="absolute inset-0 z-0 h-full w-full object-cover transition-transform duration-700 ease-[0.22,1,0.36,1] group-hover:scale-105"
-      />
+    <div ref={ref} className="group relative h-[450px] w-[320px] shrink-0 overflow-hidden md:h-[600px] md:w-[450px] border border-border bg-ink/20">
+      {isInView && (
+        <img
+          src={card.src}
+          alt={card.style}
+          loading="lazy"
+          decoding="async"
+          width={card.w}
+          height={card.h}
+          className="absolute inset-0 z-0 h-full w-full object-cover transition-transform duration-700 ease-[0.22,1,0.36,1] group-hover:scale-105"
+        />
+      )}
     </div>
   );
 };
