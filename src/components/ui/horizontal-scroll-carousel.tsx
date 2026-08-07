@@ -28,7 +28,7 @@ export const HorizontalScrollCarousel = ({ items }: CarouselProps) => {
   const x = useTransform(smoothProgress, [0, 1], ["0%", "-90%"]);
 
   return (
-    <section ref={targetRef} className="relative h-[300vh] w-full">
+    <section ref={targetRef} className="relative w-full" style={{ height: `calc(100vh + ${items.length * 35}vh)` }}>
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <motion.div style={{ x }} className="flex gap-6 pl-4 md:pl-12 will-change-transform">
           {items.map((item, index) => {
