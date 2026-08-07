@@ -1,16 +1,12 @@
 import { MapPin, Phone, Clock } from "lucide-react";
 import { MagneticButton } from "./MagneticButton";
-import { MaskReveal, Reveal, TextReveal } from "./Reveal";
-import { useRef } from "react";
-import { useInView } from "motion/react";
+import { Reveal, TextReveal } from "./Reveal";
 import { useTenant } from "@/config/TenantContext";
 
 export function Contact() {
   const tenant = useTenant();
   const phone = tenant.contact.phone.replace(/[^0-9]/g, "");
   const WA_LINK = `https://wa.me/${phone}?text=${encodeURIComponent(tenant.contact.whatsappMessage)}`;
-  const mapRef = useRef<HTMLDivElement>(null);
-  const isMapInView = useInView(mapRef, { once: true, margin: "200px" });
 
   return (
     <section id="contacto" className="grain relative px-6 py-28 md:px-12 md:py-40">
@@ -84,22 +80,17 @@ export function Contact() {
             ))}
           </div>
 
-          <MaskReveal from="bottom" delay={0.2} className="mt-12">
-            <div
-              ref={mapRef}
-              className="relative h-[320px] overflow-hidden border border-border bg-ink-soft/30"
-            >
-              {isMapInView && (
-                <iframe
-                  title={`Ubicación de ${tenant.name} en ${tenant.address.city}, ${tenant.address.state}`}
-                  src={`https://www.google.com/maps?q=${encodeURIComponent(`${tenant.address.street}, ${tenant.address.zip} ${tenant.address.city}, ${tenant.address.state}`)}&output=embed`}
-                  className="h-full w-full opacity-70 grayscale contrast-125 invert-[0.92] hue-rotate-180"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              )}
+          <Reveal delay={0.2} className="mt-12">
+            <div className="relative h-[320px] overflow-hidden border border-border bg-ink-soft/30 rounded-xl">
+              <iframe
+                title={`Ubicación de ${tenant.name} en ${tenant.address.city}, ${tenant.address.state}`}
+                src={`https://www.google.com/maps?q=${encodeURIComponent(`${tenant.address.street}, ${tenant.address.zip} ${tenant.address.city}, ${tenant.address.state}`)}&output=embed`}
+                className="h-full w-full opacity-70 grayscale contrast-125 invert-[0.92] hue-rotate-180"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
             </div>
-          </MaskReveal>
+          </Reveal>
         </div>
       </div>
     </section>
