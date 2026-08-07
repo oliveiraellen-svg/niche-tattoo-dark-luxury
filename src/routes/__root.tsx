@@ -163,7 +163,6 @@ function RootShell({ children }: { children: ReactNode }) {
           :root {
             --background: ${tenantConfig.theme.backgroundColor};
             --gold: ${tenantConfig.theme.primaryColor};
-            --font-display: "${tenantConfig.theme.fontFamily}", "Playfair Display", serif;
           }
         `,
           }}
