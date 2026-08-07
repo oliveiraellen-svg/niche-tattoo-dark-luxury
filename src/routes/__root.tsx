@@ -103,13 +103,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       // Open Graph (SEO / Social Sharing)
       { property: "og:site_name", content: tenantConfig.name },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "/google-review.png" }, // To be configurable later
+      { property: "og:image", content: "/og-image.jpg" }, // Configured to user provided image
       { property: "og:image:alt", content: `${tenantConfig.name} Logo` },
       { property: "og:locale", content: "es_ES" },
 
       // Twitter
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "/google-review.png" },
+      { name: "twitter:image", content: "/og-image.jpg" },
 
       // Theming
       { name: "theme-color", content: tenantConfig.theme.primaryColor },
