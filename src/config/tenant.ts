@@ -91,7 +91,7 @@ export const tenantConfig: TenantConfig = {
     ],
   },
   social: {
-    instagram: "https://instagram.com/lunfardotattoo",
+    instagram: "https://www.instagram.com/lunfardo_/",
   },
   theme: {
     primaryColor: "#0c0c0c",
