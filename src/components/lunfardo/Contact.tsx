@@ -82,7 +82,7 @@ export function Contact() {
 
           {/* Replaced broken Google Maps iframe with a highly aesthetic native link CTA */}
           <a 
-            href={`https://maps.google.com/?q=${encodeURIComponent(`${tenant.address.street} ${tenant.address.zip} ${tenant.address.city} ${tenant.address.state}`)}`}
+            href="https://www.google.com/maps/place/Carrer+Paca+Guillem,+14,+03440+Ibi,+Alacant,+Espanha/@0,0,3z/data=!4m6!3m5!1s0xd622aedcde26541:0xd40ff72454caa04e!8m2!3d38.6259933!4d-0.5751596!16s%2Fg%2F11csmxvpgx?hl=pt-BR&entry=ttu&g_ep=EgoyMDI2MDgwNC4wIKXMDSoASAFQAw%3D%3D"
             target="_blank" 
             rel="noopener noreferrer"
             className="group relative mt-12 flex h-[280px] w-full flex-col items-center justify-center overflow-hidden rounded-xl border border-border bg-ink-soft/30 transition-all duration-500 hover:border-gold/50 hover:bg-ink-soft/50"
